@@ -1,6 +1,9 @@
+import { useUserLocationAndDirection } from "@/toll-locator/useUserLocationAndDirection";
 import { Text, View } from "react-native";
 
 export default function Index() {
+  const { location, direction } = useUserLocationAndDirection(2000, 1);
+
   return (
     <View
       style={{
@@ -9,7 +12,9 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text>TollWatch WA</Text>
+      <Text>Location: ({location?.latitude}, {location?.longitude})</Text>
+      <Text>Direction: {direction}</Text>
     </View>
   );
 }
