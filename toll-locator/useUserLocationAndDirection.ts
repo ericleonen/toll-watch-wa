@@ -33,7 +33,6 @@ export function useUserLocationAndDirection(
         timeInterval: 2000,
         distanceInterval: 1
       }, (loc) => {
-        console.log("hi")
         const { latitude, longitude } = loc.coords;
         const currLocation = { latitude, longitude }
         setLocation(currLocation);
