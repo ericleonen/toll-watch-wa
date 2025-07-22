@@ -109,17 +109,17 @@ async def get_nearby_tolls(
         GP_speed_mph = get_toll_route_mph(toll, ETL=False)
         ETL_speed_mph = get_toll_route_mph(toll, ETL=True)
 
-        if GP_speed_mph > ETL_speed_mph:
-            distance_miles = abs(toll["StartMilepost"] - toll["EndMilepost"])
-            GP_duration_min = distance_miles / GP_speed_mph * 60
-            ETL_duration_min = distance_miles / ETL_speed_mph * 60
+        distance_miles = abs(toll["StartMilepost"] - toll["EndMilepost"])
 
-            time_saved_min = round(GP_duration_min - ETL_duration_min, 2)
+        GP_duration_min = distance_miles / GP_speed_mph * 60
+        ETL_duration_min = distance_miles / ETL_speed_mph * 60
+        time_saved_min = round(GP_duration_min - ETL_duration_min, 2)
+
+        if time_saved_min > 0:
             speed_boost_mph = round(GP_speed_mph - ETL_speed_mph, 2)
             cost_per_min_saved = round(toll["CurrentToll"] / 100 / time_saved_min, 2)
 
         else:
-            time_saved_min = 0.0
             speed_boost_mph = 0.0
             cost_per_min_saved = None
 
