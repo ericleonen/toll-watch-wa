@@ -9,10 +9,7 @@ export default function Index() {
   const [nearbyTolls, setNearbyTolls] = useState<any[]>([])
 
   useEffect(() => {
-    console.log({
-      location, direction
-    })
-    if (!location) return;
+    if (!location || !direction) return;
 
     axios.get("https://toll-watch-wa.onrender.com/nearbyTolls", {
       params: {
