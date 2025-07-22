@@ -1,41 +1,28 @@
 import TollSign from "@/components/TollSign";
 import { useUserLocationAndDirection } from "@/toll-locator/useUserLocationAndDirection";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 
 export default function Index() {
   const { location, direction } = useUserLocationAndDirection(2000, 1);
+  const [nearbyTolls, setNearbyTolls] = useState<any[]>([])
 
-  const tollData = [
-    {
-      tollName: "SR-099 SB S Portal ➔ NB S Portal",
-      tollAmount: "$2.75",
-      costEfficiency: "$0.23/min",
-      timeSaved: "12 min",
-      effectiveSpeed: "45 mph",
-    },
-    {
-      tollName: "I-405 Bellevue ➔ Renton",
-      tollAmount: "$3.50",
-      costEfficiency: "$0.30/min",
-      timeSaved: "10 min",
-      effectiveSpeed: "55 mph",
-    },
-    {
-      tollName: "SR-167 Auburn ➔ Renton",
-      tollAmount: "$1.75",
-      costEfficiency: "$0.18/min",
-      timeSaved: "9 min",
-      effectiveSpeed: "50 mph",
-    },
-    {
-      tollName: "SR-167 Auburn ➔ Renton",
-      tollAmount: "$1.75",
-      costEfficiency: "$0.18/min",
-      timeSaved: "9 min",
-      effectiveSpeed: "50 mph",
-    },
-  ];
+  useEffect(() => {
+    if (!location || !direction) return;
+
+    axios.get("http://127.0.0.1:8000/nearbyTolls", {
+      params: {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        direction,
+        numTolls: 3
+      }
+    }).then(
+      (res) => setNearbyTolls(res.data)
+    ).catch((err) => console.error(err))
+
+  }, [location, direction])
 
   return (
     <ScrollView
@@ -44,7 +31,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      {tollData.map((toll, index) => (
+      {nearbyTolls.map((toll, index) => (
         <View key={index} style={{ marginBottom: 16, width: "100%" }}>
           <TollSign {...toll} />
         </View>

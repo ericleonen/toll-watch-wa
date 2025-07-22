@@ -2,30 +2,36 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 type TollSignProps = {
-  tollName: string;
-  tollAmount: string;
-  costEfficiency: string; // e.g. "$1.25/min"
-  timeSaved: string;      // e.g. "12 min"
-  effectiveSpeed: string; // e.g. "45 mph"
+  stateRoute: string,
+  startLocation: string,
+  endLocation: string,
+  direction: string,
+  cost: number,
+  timeSavedMin: number,
+  speedBoostMph: number,
+  costPerMinSaved: number
 };
 
 const TollSign: React.FC<TollSignProps> = ({
-  tollName,
-  tollAmount,
-  costEfficiency,
-  timeSaved,
-  effectiveSpeed,
+  stateRoute,
+  startLocation,
+  endLocation,
+  direction,
+  cost,
+  timeSavedMin,
+  speedBoostMph,
+  costPerMinSaved
 }) => {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Text style={styles.tollName}>{tollName}</Text>
-        <Text style={styles.tollAmount}>{tollAmount}</Text>
+        <Text style={styles.tollName}>SR {stateRoute} {startLocation} {">"} {endLocation}</Text>
+        <Text style={styles.tollAmount}>${cost}</Text>
       </View>
       <View style={styles.metrics}>
-        <Metric label="Cost Efficiency" value={costEfficiency} />
-        <Metric label="Time Saved" value={timeSaved} />
-        <Metric label="Effective Speed" value={effectiveSpeed} />
+        <Metric label="Implied Time Cost" value={costPerMinSaved ? "$" + costPerMinSaved + "per min" : "N/A"} />
+        <Metric label="Time Saved" value={timeSavedMin + " min"} />
+        <Metric label="Speed Boost" value={speedBoostMph + " mph"} />
       </View>
     </View>
   );

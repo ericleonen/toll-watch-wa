@@ -6,15 +6,12 @@ type UserLocation = {
   longitude: number
 };
 
-type UserDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW";
-const DIRECTIONS: UserDirection[] = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-
 export function useUserLocationAndDirection(
   timeInterval: number = 2000, 
   distanceInterval: number = 1
 ) {
   const [location, setLocation] = useState<UserLocation | null>(null);
-  const [direction, setDirection] = useState<UserDirection | null>(null);
+  const [direction, setDirection] = useState<number | null>(null);
   const [prevLocation, setPrevLocation] = useState<UserLocation | null>(null);
 
   useEffect(() => {
@@ -56,7 +53,7 @@ export function useUserLocationAndDirection(
   return { location, direction };
 }
 
-function getDirection(prevLocation: UserLocation, currLocation: UserLocation): UserDirection {
+function getDirection(prevLocation: UserLocation, currLocation: UserLocation): number {
   const startLat = toRad(prevLocation.latitude);
   const startLng = toRad(prevLocation.longitude);
   const endLat = toRad(currLocation.latitude);
@@ -69,9 +66,7 @@ function getDirection(prevLocation: UserLocation, currLocation: UserLocation): U
     Math.sin(startLat) * Math.cos(endLat) * Math.cos(dLng);
   const bearing = (toDeg(Math.atan2(y, x)) + 360) % 360;
 
-  const directionIndex = Math.round(bearing / 45) % 8;
-
-  return DIRECTIONS[directionIndex];
+  return bearing
 }
 
 function toRad(deg: number): number {
