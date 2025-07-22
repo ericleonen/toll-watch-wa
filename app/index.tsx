@@ -11,7 +11,7 @@ export default function Index() {
   useEffect(() => {
     if (!location || !direction) return;
 
-    axios.get("http://127.0.0.1:8000/nearbyTolls", {
+    axios.get("https://toll-watch-wa.onrender.com/nearbyTolls", {
       params: {
         latitude: location.latitude,
         longitude: location.longitude,
@@ -20,7 +20,7 @@ export default function Index() {
       }
     }).then(
       (res) => setNearbyTolls(res.data)
-    ).catch((err) => console.error(err))
+    ).catch((err) => console.error(err));
 
   }, [location, direction])
 
