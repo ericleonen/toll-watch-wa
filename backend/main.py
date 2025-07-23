@@ -18,9 +18,9 @@ app.add_middleware(
 @app.get("/upcomingTolls")
 async def get_upcoming_tolls(
     request: Request,
-    latitude: float=Query(...),
-    longitude: float=Query(...),
-    bearing: float=Query(...),
+    latitude: float = Query(...),
+    longitude: float = Query(...),
+    bearing: float = Query(...),
     maxDistanceMiles: float = Query(3, ge=0),
     maxTolls: int = Query(5, ge=1)
 ):
