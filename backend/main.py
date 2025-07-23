@@ -97,10 +97,14 @@ async def get_nearby_tolls(
             "direction": toll["TravelDirection"],
             "cost": round(toll["CurrentToll"] / 100, 2),
             "distanceToStartMiles": dist,
+            # temporary
             "StartLatitude": toll["StartLatitude"],
             "StartLongitude": toll["StartLongitude"],
             "EndLatitude": toll["EndLatitude"],
-            "EndLongitude": toll["EndLongitude"]
+            "EndLongitude": toll["EndLongitude"],
+            "StartMilepost": toll["StartMilepost"],
+            "EndMilepost": toll["EndMilepost"],
+            "CurrentToll": toll["CurrentToll"]
         }
         for toll in tolls
         if (dist := get_distance_miles(
@@ -144,6 +148,9 @@ async def get_nearby_tolls(
         del toll_decision_data["StartLongitude"]
         del toll_decision_data["EndLatitude"]
         del toll_decision_data["EndLongitude"]
+        del toll_decision_data["StartMilepost"]
+        del toll_decision_data["EndMilepost"]
+        del toll_decision_data["CurrentToll"]
 
         tolls_decision_data.append(toll_decision_data)
 
