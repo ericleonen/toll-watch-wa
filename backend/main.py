@@ -98,7 +98,9 @@ async def get_nearby_tolls(
             "cost": round(toll["CurrentToll"] / 100, 2),
             "distanceToStartMiles": dist,
             "StartLatitude": toll["StartLatitude"],
-            "StartLongitude": toll["StartLongitude"]
+            "StartLongitude": toll["StartLongitude"],
+            "EndLatitude": toll["EndLatitude"],
+            "EndLongitude": toll["EndLongitude"]
         }
         for toll in tolls
         if (dist := get_distance_miles(
@@ -140,6 +142,8 @@ async def get_nearby_tolls(
 
         del toll_decision_data["StartLatitude"]
         del toll_decision_data["StartLongitude"]
+        del toll_decision_data["EndLatitude"]
+        del toll_decision_data["EndLongitude"]
 
         tolls_decision_data.append(toll_decision_data)
 
