@@ -75,8 +75,8 @@ async def get_nearby_tolls(
     latitude: float=Query(...),
     longitude: float=Query(...),
     bearing: float=Query(...),
-    max_distance_miles: float = Query(..., ge=0),
-    max_n_tolls: int = Query(..., ge=1)
+    maxDistanceMiles: float = Query(..., ge=0),
+    maxTolls: int = Query(..., ge=1)
 ):
     tolls_res = requests.get(
         f"http://wsdot.wa.gov/Traffic/api/TollRates/TollRatesREST.svc/GetTollRatesAsJson",
@@ -102,13 +102,13 @@ async def get_nearby_tolls(
         if (dist := get_distance_miles(
                 (latitude, longitude),
                 (toll["StartLatitude"], toll["StartLongitude"])
-            )) <= max_distance_miles
+            )) <= maxDistanceMiles
     ]
 
     tolls = sorted(
         tolls, 
         key="distanceToStartMiles"
-    )[:min(max_n_tolls, len(tolls))]
+    )[:min(maxTolls, len(tolls))]
 
     tolls_decision_data = []
 
