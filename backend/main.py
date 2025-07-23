@@ -68,7 +68,7 @@ async def get_upcoming_tolls(
 
         tolls_decision_data.append({
             "stateRoute": toll["StateRoute"],
-            "locations": [toll["StartLocation"], toll["EndLocation"]],
+            "locations": [toll["StartLocationName"], toll["EndLocationName"]],
             "distanceBetweenStartAndUserMiles": toll["distanceBetweenStartAndUserMiles"],
             "cost": round(toll["CurrentToll"] / 100, 2),
             "direction": toll["TravelDirection"],
