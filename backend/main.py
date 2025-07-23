@@ -131,10 +131,11 @@ async def get_nearby_tolls(
         time_saved_min = round(GP_duration_min - ETL_duration_min, 2)
 
         if time_saved_min > 0:
-            speed_boost_mph = round(GP_speed_mph - ETL_speed_mph, 2)
+            speed_boost_mph = round(ETL_speed_mph - GP_speed_mph, 2)
             cost_per_min_saved = round(toll["CurrentToll"] / 100 / time_saved_min, 2)
 
         else:
+            time_saved_min = 0
             speed_boost_mph = 0.0
             cost_per_min_saved = None
 
