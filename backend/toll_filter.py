@@ -75,7 +75,7 @@ def _get_angle_between_bearings(bearing1: float, bearing2: float) -> float:
     Returns the angle between the given bearings (both floats).
     """
     
-    diff = math.abs(bearing1 - bearing2) % 360
+    diff = abs(bearing1 - bearing2) % 360
     return 360 - diff if diff > 180 else diff
 
 def filter_for_upcoming_tolls(tolls: list[dict], coords: tuple[float, float], bearing: float) -> list[dict]:
