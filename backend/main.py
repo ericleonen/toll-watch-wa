@@ -107,7 +107,7 @@ async def get_nearby_tolls(
 
     tolls = sorted(
         tolls, 
-        key="distanceToStartMiles"
+        key=lambda toll: toll["distanceToStartMiles"]
     )[:min(maxTolls, len(tolls))]
 
     tolls_decision_data = []
