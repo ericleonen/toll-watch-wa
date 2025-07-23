@@ -96,7 +96,9 @@ async def get_nearby_tolls(
             "endLocation": toll["EndLocationName"],
             "direction": toll["TravelDirection"],
             "cost": round(toll["CurrentToll"] / 100, 2),
-            "distanceToStartMiles": dist
+            "distanceToStartMiles": dist,
+            "StartLatitude": toll["StartLatitude"],
+            "StartLongitude": toll["StartLongitude"]
         }
         for toll in tolls
         if (dist := get_distance_miles(
@@ -135,6 +137,9 @@ async def get_nearby_tolls(
         toll_decision_data["timeSavedMin"] = time_saved_min
         toll_decision_data["speedBoostMph"] = speed_boost_mph
         toll_decision_data["costPerMinSaved"] = cost_per_min_saved
+
+        del toll_decision_data["StartLatitude"]
+        del toll_decision_data["StartLongitude"]
 
         tolls_decision_data.append(toll_decision_data)
 
