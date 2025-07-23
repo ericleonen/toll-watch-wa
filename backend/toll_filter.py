@@ -87,5 +87,6 @@ def filter_for_upcoming_tolls(tolls: list[dict], coords: tuple[float, float], be
         lambda toll: _get_angle_between_bearings(
             _get_bearing(coords, (tolls["StartLatitude"], tolls["StartLongitude"])),
             bearing
-        ) < 90
+        ) < 90,
+        tolls
     ))
