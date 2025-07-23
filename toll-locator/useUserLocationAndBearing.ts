@@ -6,12 +6,12 @@ type UserLocation = {
   longitude: number
 };
 
-export function useUserLocationAndDirection(
+export function useUserLocationAndBearing(
   timeInterval: number = 2000,
   distanceInterval: number = 1
 ) {
   const [location, setLocation] = useState<UserLocation | null>(null);
-  const [direction, setDirection] = useState<number | null>(null);
+  const [bearing, setBearing] = useState<number | null>(null);
   const prevLocationRef = useRef<UserLocation | null>(null);
 
   useEffect(() => {
@@ -34,8 +34,8 @@ export function useUserLocationAndDirection(
         setLocation(currLocation);
 
         if (prevLocationRef.current) {
-          const userDirection = getDirection(prevLocationRef.current, currLocation);
-          setDirection(userDirection);
+          const userBearing = getBearing(prevLocationRef.current, currLocation);
+          setBearing(userBearing);
         }
 
         prevLocationRef.current = currLocation;
@@ -49,10 +49,10 @@ export function useUserLocationAndDirection(
     };
   }, []);
 
-  return { location, direction };
+  return { location, bearing };
 }
 
-function getDirection(prevLocation: UserLocation, currLocation: UserLocation): number {
+function getBearing(prevLocation: UserLocation, currLocation: UserLocation): number {
   const startLat = toRad(prevLocation.latitude);
   const startLng = toRad(prevLocation.longitude);
   const endLat = toRad(currLocation.latitude);
