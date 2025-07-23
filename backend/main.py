@@ -1,16 +1,9 @@
-from fastapi import FastAPI, Query
-import requests
-import os
-from dotenv import load_dotenv
-import math
-import json
+from fastapi import FastAPI, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from toll_filter import * 
-
-load_dotenv()
-
-GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
-WSDOT_TRAVELER_API_KEY = os.getenv("WSDOT_TRAVELER_API_KEY")
+from maps import get_toll_route_mph
+from wa_tolls import get_all_tolls
+from validate import validate_client
 
 app = FastAPI()
 
@@ -18,93 +11,28 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 
-def get_toll_route_mph(toll: dict, ETL: bool) -> float:
-    headers = {
-        "Content-Type": "application/json",
-        "X-Goog-FieldMask": "routes.duration,routes.distanceMeters",
-        "X-Goog-Api-Key": GOOGLE_MAPS_API_KEY,
-    }
-    
-    body =  {
-        "origin": {
-            "location": {
-                "latLng": {
-                    "latitude": toll["StartLatitude"],
-                    "longitude": toll["StartLongitude"]
-                }
-            }
-        },
-        "destination": {
-            "location": {
-                "latLng": {
-                    "latitude": toll["EndLatitude"],
-                    "longitude": toll["EndLongitude"]
-                }
-            }
-        },
-        "travelMode": "DRIVE",
-        "routingPreference": "TRAFFIC_AWARE",
-        "computeAlternativeRoutes": False,
-        "routeModifiers": {
-            "avoidTolls": not ETL,
-            "avoidHighways": False,
-            "avoidFerries": True,
-        },
-        "languageCode": "en-US"
-    }
-
-    toll_route_res = requests.post(
-        "https://routes.googleapis.com/directions/v2:computeRoutes",
-        headers=headers,
-        data=json.dumps(body)
-    )
-    toll_route_res.raise_for_status()
-    toll_route_data = toll_route_res.json()["routes"][0]
-
-    distance_miles = toll_route_data["distanceMeters"] / 1609.34
-    duration_hours = float(toll_route_data["duration"][:-1]) / 3600
-
-    return distance_miles / duration_hours
-
-@app.get("/nearbyTolls")
-async def get_nearby_tolls(
+@app.get("/upcomingTolls")
+async def get_upcoming_tolls(
+    request: Request,
     latitude: float=Query(...),
     longitude: float=Query(...),
     bearing: float=Query(...),
-    maxDistanceMiles: float = Query(..., ge=0),
-    maxTolls: int = Query(..., ge=1)
+    maxDistanceMiles: float = Query(3, ge=0),
+    maxTolls: int = Query(5, ge=1)
 ):
-    tolls_res = requests.get(
-        f"http://wsdot.wa.gov/Traffic/api/TollRates/TollRatesREST.svc/GetTollRatesAsJson",
-        params={
-            "AccessCode": WSDOT_TRAVELER_API_KEY
-        }
-    )
-    tolls = tolls_res.json()
+    validate_client(request)
 
+    tolls = get_all_tolls()
     tolls = filter_by_direction(tolls, bearing)
     tolls = filter_for_upcoming_tolls(tolls, (latitude, longitude), bearing)
-
     tolls = [
         {
-            "stateRoute": toll["StateRoute"],
-            "startLocation": toll["StartLocationName"],
-            "endLocation": toll["EndLocationName"],
-            "direction": toll["TravelDirection"],
-            "cost": round(toll["CurrentToll"] / 100, 2),
-            "distanceToStartMiles": dist,
-            # temporary
-            "StartLatitude": toll["StartLatitude"],
-            "StartLongitude": toll["StartLongitude"],
-            "EndLatitude": toll["EndLatitude"],
-            "EndLongitude": toll["EndLongitude"],
-            "StartMilepost": toll["StartMilepost"],
-            "EndMilepost": toll["EndMilepost"],
-            "CurrentToll": toll["CurrentToll"]
+            **toll,
+            "distanceBetweenStartAndUserMiles": dist,
         }
         for toll in tolls
         if (dist := get_distance_miles(
@@ -112,10 +40,9 @@ async def get_nearby_tolls(
                 (toll["StartLatitude"], toll["StartLongitude"])
             )) <= maxDistanceMiles
     ]
-
     tolls = sorted(
         tolls, 
-        key=lambda toll: toll["distanceToStartMiles"]
+        key=lambda toll: toll["distanceBetweenStartAndUserMiles"]
     )[:min(maxTolls, len(tolls))]
 
     tolls_decision_data = []
@@ -128,7 +55,7 @@ async def get_nearby_tolls(
 
         GP_duration_min = distance_miles / GP_speed_mph * 60
         ETL_duration_min = distance_miles / ETL_speed_mph * 60
-        time_saved_min = round(GP_duration_min - ETL_duration_min, 2)
+        time_saved_min = GP_duration_min - ETL_duration_min
 
         if time_saved_min > 0:
             speed_boost_mph = round(ETL_speed_mph - GP_speed_mph, 2)
@@ -139,28 +66,15 @@ async def get_nearby_tolls(
             speed_boost_mph = 0.0
             cost_per_min_saved = None
 
-        toll_decision_data = toll.copy()
-
-        toll_decision_data["timeSavedMin"] = time_saved_min
-        toll_decision_data["speedBoostMph"] = speed_boost_mph
-        toll_decision_data["costPerMinSaved"] = cost_per_min_saved
-
-        del toll_decision_data["StartLatitude"]
-        del toll_decision_data["StartLongitude"]
-        del toll_decision_data["EndLatitude"]
-        del toll_decision_data["EndLongitude"]
-        del toll_decision_data["StartMilepost"]
-        del toll_decision_data["EndMilepost"]
-        del toll_decision_data["CurrentToll"]
-
-        tolls_decision_data.append(toll_decision_data)
+        tolls_decision_data.append({
+            "stateRoute": toll["StateRoute"],
+            "locations": [toll["StartLocation"], toll["EndLocation"]],
+            "distanceBetweenStartAndUserMiles": toll["distanceBetweenStartAndUserMiles"],
+            "cost": round(toll["CurrentToll"] / 100, 2),
+            "direction": toll["TravelDirection"],
+            "timeSavedMin": time_saved_min,
+            "speedBoostMph": speed_boost_mph,
+            "costPerMinSaved": cost_per_min_saved
+        })
 
     return tolls_decision_data
-
-            
-
-
-
-
-        
-
