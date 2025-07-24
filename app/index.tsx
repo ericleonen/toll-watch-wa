@@ -16,7 +16,7 @@ export default function Index() {
     >
       {upcomingTolls.map((toll, index) => (
         <View key={index} style={{ marginBottom: 16, width: "100%" }}>
-          <TollSign {...toll} />
+          <TollSign toll={toll} />
         </View>
       ))}
     </ScrollView>

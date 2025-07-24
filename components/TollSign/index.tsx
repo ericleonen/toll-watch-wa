@@ -9,33 +9,28 @@ const DIRECTION_MAP = {
 };
 
 type TollSignProps = {
-  stateRoute: string;
-  startLocation: string;
-  endLocation: string;
-  direction: "N" | "S" | "E" | "W";
-  cost: number;
-  timeSavedMin: number;
-  speedBoostMph: number;
-  costPerMinSaved: number;
+  toll: Toll
 };
 
-const TollSign: React.FC<TollSignProps> = ({
-  stateRoute,
-  startLocation,
-  endLocation,
-  direction,
-  cost,
-  timeSavedMin,
-  speedBoostMph,
-  costPerMinSaved,
-}) => {
+const TollSign: React.FC<TollSignProps> = ({ toll }) => {
+  const {
+    stateRoute,
+    locations,
+    distanceBetweenStartAndUserMiles,
+    cost,
+    direction,
+    timeSavedMin,
+    speedBoostMph,
+    costPerMinSaved
+  } = toll;
+
   return (
     <View style={styles.signWrapper}>
       <View style={styles.header}>
         <Text style={styles.route}>SR-{stateRoute} {DIRECTION_MAP[direction]}</Text>
       </View>
       <View style={styles.tollRow}>
-        <Text style={styles.location}>{endLocation}</Text>
+        <Text style={styles.location}>{locations[0]} to {locations[1]}</Text>
         <Text style={styles.price}>${cost.toFixed(2)}</Text>
       </View>
       <View style={styles.metricPanel}>
