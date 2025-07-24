@@ -1,12 +1,7 @@
 import * as Location from "expo-location";
 import { useEffect, useRef, useState } from "react";
 
-type UserLocation = {
-  latitude: number,
-  longitude: number
-};
-
-export function useUserLocationAndBearing(
+export default function useUserLocationAndBearing(
   timeInterval: number = 2000,
   distanceInterval: number = 1
 ) {
