@@ -18,7 +18,7 @@ export default function useUpcomingTolls(
             params: {
                 latitude: location.latitude,
                 longitude: location.longitude,
-                bearing,
+                // bearing,
                 maxDistanceMiles: 100,
                 maxTolls: 5
             },
