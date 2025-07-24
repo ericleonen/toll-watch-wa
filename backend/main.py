@@ -20,15 +20,18 @@ async def get_upcoming_tolls(
     request: Request,
     latitude: float = Query(...),
     longitude: float = Query(...),
-    bearing: float = Query(...),
+    bearing: float | None = Query(None),
     maxDistanceMiles: float = Query(3, ge=0),
     maxTolls: int = Query(5, ge=1)
 ):
     validate_client(request)
 
     tolls = get_all_tolls()
-    tolls = filter_by_direction(tolls, bearing)
-    tolls = filter_for_upcoming_tolls(tolls, (latitude, longitude), bearing)
+
+    if bearing is not None:
+        tolls = filter_by_direction(tolls, bearing)
+        tolls = filter_for_upcoming_tolls(tolls, (latitude, longitude), bearing)
+        
     tolls = [
         {
             **toll,
