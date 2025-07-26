@@ -19,7 +19,7 @@ export default function useUpcomingTolls(
                 latitude: location.latitude,
                 longitude: location.longitude,
                 // bearing,
-                maxDistanceMiles: 100,
+                maxDistanceMiles: 1,
                 maxTolls: 5
             },
             headers: {
@@ -28,6 +28,8 @@ export default function useUpcomingTolls(
         }).then(
             res => setUpcomingTolls(res.data)
         ).catch(err => console.error(err));
+
+
     }, [location, bearing]);
 
     return upcomingTolls;
