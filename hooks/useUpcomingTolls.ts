@@ -1,4 +1,4 @@
-import { OBFUSCATED_TOLLWATCH_API_KEY, TOLL_WATCH_UPCOMING_URL } from "@/constants/API";
+import { LYNNWOOD_TO_BELLEVUE_TOLLS_URL, OBFUSCATED_TOLLWATCH_API_KEY } from "@/constants/API";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -12,16 +12,9 @@ export default function useUpcomingTolls(
     const [upcomingTolls, setUpcomingTolls] = useState<Toll[]>([]);
 
     useEffect(() => {
-        if (!location || !bearing) return;
+        // if (!location || !bearing) return;
 
-        axios.get(TOLL_WATCH_UPCOMING_URL, {
-            params: {
-                latitude: location.latitude,
-                longitude: location.longitude,
-                // bearing,
-                maxDistanceMiles: 1,
-                maxTolls: 5
-            },
+        axios.get(LYNNWOOD_TO_BELLEVUE_TOLLS_URL, {
             headers: {
                 "Access-Code": atob(OBFUSCATED_TOLLWATCH_API_KEY)
             }
@@ -29,8 +22,7 @@ export default function useUpcomingTolls(
             res => setUpcomingTolls(res.data)
         ).catch(err => console.error(err));
 
-
-    }, [location, bearing]);
+    }, []);
 
     return upcomingTolls;
 }

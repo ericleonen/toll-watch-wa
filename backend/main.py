@@ -61,8 +61,8 @@ async def get_lynnwood_to_bellevue_tolls_data(
         toll_decision_data["ends"].append({
             "location": toll["EndLocationName"],
             "cost": round(toll["CurrentToll"] / 100, 2),
-            "time_saved_min": time_saved_min,
-            "cost_per_min_saved": cost_per_min_saved
+            "timeSavedMin": time_saved_min,
+            "costPerMinSaved": cost_per_min_saved
         })
 
     return [toll_decision_data]

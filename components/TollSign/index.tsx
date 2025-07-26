@@ -9,45 +9,35 @@ const DIRECTION_MAP = {
 };
 
 type TollSignProps = {
-  toll: Toll
+  tollGroup: TollGroup
 };
 
-const TollSign: React.FC<TollSignProps> = ({ toll }) => {
+const TollSign: React.FC<TollSignProps> = ({ tollGroup }) => {
   const {
     stateRoute,
-    locations,
-    distanceBetweenStartAndUserMiles,
-    cost,
     direction,
-    timeSavedMin,
-    speedBoostMph,
-    costPerMinSaved
-  } = toll;
+    startLocation,
+    ends
+  } = tollGroup;
 
   return (
     <View style={styles.signWrapper}>
       <View style={styles.header}>
-        <Text style={styles.route}>SR-{stateRoute} {DIRECTION_MAP[direction]}</Text>
+        <Text style={styles.route}>
+          SR {stateRoute} {DIRECTION_MAP[direction]} from {startLocation}
+        </Text>
       </View>
-      <View style={styles.tollRow}>
-        <Text style={styles.location}>{locations[0]} to {locations[1]}</Text>
-        <Text style={styles.price}>${cost.toFixed(2)}</Text>
-      </View>
-      <View style={styles.metricPanel}>
-        <Metric label="Time Saved" value={`${timeSavedMin} min`} />
-        <Metric label="Speed Boost" value={`${speedBoostMph} mph`} />
-        <Metric label="Time Cost" value={costPerMinSaved ? `$${costPerMinSaved.toFixed(2)}/min` : "N/A"} />
-      </View>
+      {
+        ends.map((end) => (
+          <View style={styles.tollRow}>
+            <Text style={styles.location}>{end.location}</Text>
+            <Text style={styles.price}>${end.costPerMinSaved.toFixed(2)}</Text>
+          </View>
+        ))
+      }
     </View>
   );
 };
-
-const Metric = ({ label, value }: { label: string; value: string }) => (
-  <View style={styles.metric}>
-    <Text style={styles.metricLabel}>{label}</Text>
-    <Text style={styles.metricValue}>{value}</Text>
-  </View>
-);
 
 const styles = StyleSheet.create({
   signWrapper: {
@@ -92,25 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     paddingVertical: 3,
     paddingHorizontal: 12
-  },
-  metricPanel: {
-    backgroundColor: "#f9f9f9",
-    padding: 10,
-  },
-  metric: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 3,
-  },
-  metricLabel: {
-    fontSize: 13,
-    color: "#555",
-  },
-  metricValue: {
-    fontSize: 13,
-    fontWeight: "bold",
-    color: "#222",
-  },
+  }
 });
 
 export default TollSign;
