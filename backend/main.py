@@ -4,6 +4,7 @@ from toll_filter import *
 from maps import get_toll_route_mph
 from wa_tolls import get_all_tolls
 from validate import validate_client
+from wa_travel_times import get_travel_time
 
 app = FastAPI()
 
@@ -14,6 +15,57 @@ app.add_middleware(
     allow_methods=["GET"],
     allow_headers=["*"],
 )
+
+@app.get("/lynnwoodToBellevueTolls")
+async def get_lynnwood_to_bellevue_tolls_data(
+    request: Request
+):
+    validate_client(request)
+
+    tolls = [
+        toll for toll in get_all_tolls()
+        if (
+            toll["StateRoute"] == "405" and
+            toll["TravelDirection"] == "S" and
+            toll["StartLocationName"] == "SR 524" and
+            toll["EndLocationName"] in ["NE 128th", "NE 85th", "NE 6th"]
+        )
+    ]
+    tolls = sorted(tolls, key=lambda toll: -toll["EndMilepost"])
+
+    ETL_travel_time = get_travel_time(37)
+    GP_travel_time = get_travel_time(38)
+
+    ETL_speed_mpm = ETL_travel_time["Distance"] / ETL_travel_time["CurrentTime"]
+    GP_speed_mpm = GP_travel_time["Distance"] / GP_travel_time["CurrentTime"]
+
+    toll_decision_data = {
+        "stateRoute": 405,
+        "direction": "S",
+        "startLocation": "SR 524",
+        "ends": []
+    }
+
+    for toll in tolls:
+        distance_miles = abs(toll["EndMilepost"] - toll["StartMilepost"])
+
+        ETL_duration_min = distance_miles / ETL_speed_mpm
+        GP_duration_min = distance_miles / GP_speed_mpm
+        time_saved_min = GP_duration_min - ETL_duration_min
+
+        if time_saved_min <= 0:
+            cost_per_min_saved = None
+        else:
+            cost_per_min_saved = toll["CurrentToll"] / 100 / time_saved_min
+
+        toll_decision_data["ends"].append({
+            "location": toll["EndLocationName"],
+            "cost": round(toll["CurrentToll"] / 100, 2),
+            "time_saved_min": time_saved_min,
+            "cost_per_min_saved": cost_per_min_saved
+        })
+
+    return [toll_decision_data]
 
 @app.get("/upcomingTolls")
 async def get_upcoming_tolls(
