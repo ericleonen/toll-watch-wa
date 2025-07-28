@@ -35,6 +35,8 @@ const TollSign: React.FC<TollSignProps> = ({ tollGroup, metric }) => {
     Overpass_600SemiBold
 	});
 
+  if (!loaded || error) return null;
+
   return (
     <View style={styles.signWrapper}>
       <View style={styles.header}>
@@ -52,7 +54,7 @@ const TollSign: React.FC<TollSignProps> = ({ tollGroup, metric }) => {
               <Text style={styles.priceText}>
                 {
                   metric === "cost" ? `$${end.cost.toFixed(2)}` :
-                  metric === "timeSavedMin" ? `${end.timeSavedMin.toFixed(0)} min` :
+                  metric === "timeSavedMin" ? `-${end.timeSavedMin.toFixed(0)} min` :
                   end.costPerMinSaved ? `$${end.costPerMinSaved.toFixed(2)}/min` :
                   " - "
                 }
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
   locationText: {
     fontSize: 22,
     color: "#000",
-    fontFamily: "Overpass_600SemiBold"
+    fontFamily: "Overpass_600SemiBold",
   },
   priceBox: {
     backgroundColor: "#000",
@@ -113,12 +115,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderRadius: 4,
     minWidth: 80,
-    alignItems: "center",
+    alignItems: "center"
   },
   priceText: {
     fontSize: 22,
     color: "#f7b345",
-    fontFamily: "ShareTechMono_400Regular"
+    fontFamily: "ShareTechMono_400Regular",
+    includeFontPadding: false
   },
 });
 

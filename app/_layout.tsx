@@ -12,6 +12,8 @@ export default function RootLayout() {
     Lato_700Bold
 	});
 
+  if (!loaded || error) return null;
+
   return (
     <Stack>
       <Stack.Screen

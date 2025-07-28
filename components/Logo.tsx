@@ -8,6 +8,8 @@ const Logo: React.FC = () => {
 		Poppins_700Bold
 	});
 
+  if (!loaded || error) return null;
+
   return (
     <View style={styles.container}>
       <Ionicons name="car" size={32} color="white" />
