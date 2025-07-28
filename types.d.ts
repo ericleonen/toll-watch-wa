@@ -13,6 +13,8 @@ type TollGroup = {
       location: string,
       cost: number,
       timeSavedMin: number,
-      costPerMinSaved: number
+      costPerMinSaved: number | null
     }[]
 }
+
+type MetricOption = "cost" | "timeSavedMin" | "costPerMinSaved";

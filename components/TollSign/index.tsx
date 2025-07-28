@@ -1,5 +1,6 @@
 import {
   Overpass_500Medium,
+  Overpass_600SemiBold
 } from "@expo-google-fonts/overpass";
 import {
   ShareTechMono_400Regular,
@@ -15,21 +16,12 @@ const DIRECTION_MAP = {
   W: "Westbound",
 };
 
-type TollGroup = {
-  stateRoute: string;
-  direction: keyof typeof DIRECTION_MAP;
-  startLocation: string;
-  ends: {
-    location: string;
-    cost: number;
-  }[];
-};
-
 type TollSignProps = {
-  tollGroup: TollGroup;
+  tollGroup: TollGroup,
+  metric: MetricOption
 };
 
-const TollSign: React.FC<TollSignProps> = ({ tollGroup }) => {
+const TollSign: React.FC<TollSignProps> = ({ tollGroup, metric }) => {
   const {
     stateRoute,
     direction,
@@ -39,6 +31,7 @@ const TollSign: React.FC<TollSignProps> = ({ tollGroup }) => {
 
   const [fontsLoaded] = useFonts({
     Overpass_500Medium,
+    Overpass_600SemiBold,
     ShareTechMono_400Regular,
   });
 
@@ -50,17 +43,24 @@ const TollSign: React.FC<TollSignProps> = ({ tollGroup }) => {
     <View style={styles.signWrapper}>
       <View style={styles.header}>
         <Text style={styles.route}>
-          SR {stateRoute} {DIRECTION_MAP[direction].toUpperCase()} FROM {startLocation.toUpperCase()}
+          I-{stateRoute} {DIRECTION_MAP[direction].toUpperCase()} FROM {startLocation.toUpperCase()}
         </Text>
       </View>
       {
         ends.map((end, index) => (
           <View key={index} style={styles.tollRow}>
             <View style={styles.locationBox}>
-              <Text style={styles.locationText}>{end.location.toUpperCase()}</Text>
+              <Text style={styles.locationText}>{end.location} St</Text>
             </View>
             <View style={styles.priceBox}>
-              <Text style={styles.priceText}>${end.cost.toFixed(2)}</Text>
+              <Text style={styles.priceText}>
+                {
+                  metric === "cost" ? `$${end.cost.toFixed(2)}` :
+                  metric === "timeSavedMin" ? `${end.timeSavedMin.toFixed(0)} min` :
+                  end.costPerMinSaved ? `$${end.costPerMinSaved.toFixed(2)}/min` :
+                  " - "
+                }
+              </Text>
             </View>
           </View>
         ))
@@ -73,11 +73,13 @@ const styles = StyleSheet.create({
   signWrapper: {
     backgroundColor: "#ffffff",
     borderColor: "#000",
-    borderWidth: 4,
+    borderWidth: 2,
     borderRadius: 4,
     overflow: "hidden",
+    marginTop: 0,
     margin: 16,
     width: "90%",
+    maxWidth: 400,
     alignSelf: "center",
   },
   header: {
@@ -89,9 +91,8 @@ const styles = StyleSheet.create({
   },
   route: {
     fontSize: 16,
-    fontWeight: "bold",
     color: "#000",
-    fontFamily: "Overpass_500Medium",
+    fontFamily: "Overpass_600SemiBold",
   },
   tollRow: {
     flexDirection: "row",
@@ -103,25 +104,24 @@ const styles = StyleSheet.create({
   locationBox: {
     flex: 1,
     justifyContent: "center",
+    alignItems: "center"
   },
   locationText: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 22,
     color: "#000",
-    fontFamily: "Overpass_500Medium"
+    fontFamily: "Overpass_600SemiBold"
   },
   priceBox: {
     backgroundColor: "#000",
-    paddingVertical: 6,
+    paddingVertical: 3,
     paddingHorizontal: 14,
-    borderRadius: 3,
+    borderRadius: 4,
     minWidth: 80,
     alignItems: "center",
   },
   priceText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "yellow",
+    fontSize: 22,
+    color: "#f7b345",
     fontFamily: "ShareTechMono_400Regular"
   },
 });
