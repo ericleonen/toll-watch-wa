@@ -3,7 +3,7 @@ import {
   Overpass_600SemiBold
 } from "@expo-google-fonts/overpass";
 import {
-  ShareTechMono_400Regular,
+  ShareTechMono_400Regular
 } from "@expo-google-fonts/share-tech-mono";
 import { useFonts } from "expo-font";
 import React from "react";
@@ -29,15 +29,11 @@ const TollSign: React.FC<TollSignProps> = ({ tollGroup, metric }) => {
     ends
   } = tollGroup;
 
-  const [fontsLoaded] = useFonts({
+  const [loaded, error] = useFonts({
+		ShareTechMono_400Regular,
     Overpass_500Medium,
-    Overpass_600SemiBold,
-    ShareTechMono_400Regular,
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
+    Overpass_600SemiBold
+	});
 
   return (
     <View style={styles.signWrapper}>

@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   pill: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     borderRadius: 4,
     marginHorizontal: 4,
     borderWidth: 2,
@@ -60,10 +60,9 @@ const styles = StyleSheet.create({
   label: {
     color: "#087c5c",
     fontSize: 14,
-    fontWeight: "bold"
+    fontFamily: "Lato_700Bold"
   },
   selectedLabel: {
     color: "#fff",
-    fontWeight: "bold",
   },
 });

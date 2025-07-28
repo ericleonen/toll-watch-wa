@@ -2,26 +2,20 @@ import { MetricPills } from "@/components/MetricPills";
 import TollSign from "@/components/TollSign";
 import useUpcomingTolls from "@/hooks/useUpcomingTolls";
 import { useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function Index() {
-  // const { location, bearing } = useUserLocationAndBearing(2000, 1);
   const upcomingTolls = useUpcomingTolls(null, null);
-
   const [metric, setMetric] = useState<MetricOption>("cost");
 
   return (
-    <View>
-      <MetricPills value={metric} onChange={val => setMetric(val)} />
-      <ScrollView
-        contentContainerStyle={{
-          paddingTop: 16,
-          paddingHorizontal: 16,
-          alignItems: "center",
-        }}
-      >
+    <View style={styles.container}>
+      {/* Fixed header */}
+      <MetricPills value={metric} onChange={setMetric} />
+      {/* Scrollable content */}
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         {upcomingTolls.map((tollGroup, index) => (
-          <View key={index} style={{ marginBottom: 16, width: "100%" }}>
+          <View key={index} style={styles.tollWrapper}>
             <TollSign tollGroup={tollGroup} metric={metric} />
           </View>
         ))}
@@ -29,3 +23,19 @@ export default function Index() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, // full height
+  },
+  scrollContent: {
+    paddingTop: 16,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    paddingBottom: 32,
+  },
+  tollWrapper: {
+    marginBottom: 16,
+    width: "100%",
+  },
+});

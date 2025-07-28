@@ -11,7 +11,9 @@
     "lint": "expo lint"
   },
   "dependencies": {
+    "@expo-google-fonts/lato": "^0.4.0",
     "@expo-google-fonts/overpass": "^0.4.1",
+    "@expo-google-fonts/poppins": "^0.4.0",
     "@expo-google-fonts/share-tech-mono": "^0.4.0",
     "@expo/vector-icons": "^14.1.0",
     "@react-navigation/bottom-tabs": "^7.3.10",
