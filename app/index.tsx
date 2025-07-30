@@ -1,22 +1,16 @@
-import { MetricPills } from "@/components/MetricPills";
-import TollSign from "@/components/TollSign";
+import TollSign from "@/components/TollCard";
 import useUpcomingTolls from "@/hooks/useUpcomingTolls";
-import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function Index() {
   const upcomingTolls = useUpcomingTolls(null, null);
-  const [metric, setMetric] = useState<MetricOption>("cost");
 
   return (
     <View style={styles.container}>
-      {/* Fixed header */}
-      <MetricPills value={metric} onChange={setMetric} />
-      {/* Scrollable content */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {upcomingTolls.map((tollGroup, index) => (
           <View key={index} style={styles.tollWrapper}>
-            <TollSign tollGroup={tollGroup} metric={metric} />
+            <TollSign tollGroup={tollGroup} />
           </View>
         ))}
       </ScrollView>
