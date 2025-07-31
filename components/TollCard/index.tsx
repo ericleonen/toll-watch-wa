@@ -10,13 +10,6 @@ import { useFonts } from "expo-font";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const DIRECTION_MAP = {
-  S: "Southbound",
-  N: "Northbound",
-  E: "Eastbound",
-  W: "Westbound",
-};
-
 type TollCardProps = {
   tollGroup: TollGroup;
 };
@@ -41,7 +34,7 @@ const TollCard: React.FC<TollCardProps> = ({ tollGroup }) => {
     <View style={styles.cardWrapper}>
       <View style={styles.header}>
         <Text style={styles.route}>
-          I-{stateRoute} {DIRECTION_MAP[direction].toUpperCase()}
+          I-{stateRoute} {direction.toUpperCase()}
         </Text>
         <Text style={styles.startLocation}>
           FROM {startLocation}

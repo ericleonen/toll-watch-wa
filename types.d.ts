@@ -3,7 +3,7 @@ type UserLocation = {
   longitude: number
 };
 
-type Direction = "N" | "S" | "E" | "W";
+type Direction = "Northbound" | "Southbound" | "Eastbound" | "Westbound";
 
 type TollGroup = {
     stateRoute: number,
