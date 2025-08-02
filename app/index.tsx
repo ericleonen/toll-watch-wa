@@ -1,12 +1,14 @@
 import { DirectionSelector } from "@/components/DirectionSelector";
 import TollCard from "@/components/TollCard";
 import useNearbyTolls from "@/hooks/useNearbyTolls";
+import useUserLocationAndBearing from "@/hooks/useUserLocationAndBearing";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function Index() {
+  const { location, bearing } = useUserLocationAndBearing();
   const [direction, setDirection]= useState<Direction>("N");
-  const nearbyTolls = useNearbyTolls(null, direction);
+  const nearbyTolls = useNearbyTolls(location, direction);
 
   return (
     <View style={styles.container}>

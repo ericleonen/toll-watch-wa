@@ -12,20 +12,22 @@ export default function useNearbyTolls(
     const [nearbyTolls, setNearbyTolls] = useState<Toll[]>([]);
 
     useEffect(() => {
-        // if (!location || !bearing) return;
+        if (!location) return;
 
         axios.get(TOLLWATCH_NEARBY_TOLLS_URL, {
             headers: {
                 "Access-Code": atob(OBFUSCATED_TOLLWATCH_API_KEY)
             },
             params: {
+                "latitude": location.latitude,
+                "longitude": location.longitude,
                 "direction": direction
             }
         }).then(
             res => setNearbyTolls(res.data)
         ).catch(err => console.error(err));
 
-    }, [direction]);
+    }, [location, direction]);
 
     return nearbyTolls;
 }
