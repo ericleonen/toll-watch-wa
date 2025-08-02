@@ -18,11 +18,13 @@ app.add_middleware(
 @app.get("/nearbyTolls")
 async def get_nearby_tolls(
     request: Request,
+    latitude: float,
+    longitude: float,
     direction: str | None = None
 ):
     validate_client(request)
 
-    toll_groups = get_tolls(direction)
+    toll_groups = get_tolls((latitude, longitude), direction)
     add_etl_gp_travel_times(toll_groups)
 
     final_toll_groups = []
@@ -67,8 +69,8 @@ async def get_nearby_tolls(
         final_toll_groups.append({
             "stateRoute": STATE_ROUTE_NAMES_MAP[toll_group["stateRoute"]],
             "direction": toll_group["direction"],
-            "startLocation": toll_group["startLocation"],
             "ends": ends,
+            "startCoords": toll_group["startCoords"],
             "ETLSpeedGuess": is_ETL_speed_guess
         })
 

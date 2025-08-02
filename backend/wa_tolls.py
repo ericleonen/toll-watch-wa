@@ -11,10 +11,13 @@ load_dotenv()
 WSDOT_TOLLS_URL = "http://wsdot.wa.gov/Traffic/api/TollRates/TollRatesREST.svc/GetTollRatesAsJson"
 WSDOT_TRAVELER_API_KEY = os.getenv("WSDOT_TRAVELER_API_KEY")
 
-def get_tolls(direction: str | None) -> list[dict]:
+def compute_euclidean_distance(coords1: tuple[float, float], coords2: tuple[float, float]) -> float:
+    return ((coords1[0] - coords2[0])**2 + (coords1[1] - coords2[1])**2)**0.5
+
+def get_tolls(coords: tuple[float, float], direction: str | None) -> list[dict]:
     """
-    Returns all WSDOT tolls data in the given directiong grouped by state route and
-    start location.
+    Returns all WSDOT tolls data in the given direction grouped by state route and
+    start location sorted by distance to the given coords.
     """
     res = requests.get(
         WSDOT_TOLLS_URL,
@@ -57,6 +60,11 @@ def get_tolls(direction: str | None) -> list[dict]:
             } for toll in tolls],
             "startCoords": [tolls[0]["StartLatitude"], tolls[0]["StartLongitude"]]
         })
+
+    toll_groups.sort(key=lambda toll_group: compute_euclidean_distance(
+        tuple(toll_group["startCoords"]),
+        coords
+    ))
 
     return toll_groups
     
