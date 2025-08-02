@@ -53,7 +53,7 @@ def get_tolls(direction: str | None) -> list[dict]:
             "ends": [{
                 "location": toll["EndLocationName"],
                 "distanceMiles": abs(start_milepost - toll["EndMilepost"]),
-                "costDollars": toll["CurrentToll"]
+                "costDollars": toll["CurrentToll"] / 100
             } for toll in tolls],
             "startCoords": [tolls[0]["StartLatitude"], tolls[0]["StartLongitude"]]
         })
