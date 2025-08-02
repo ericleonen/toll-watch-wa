@@ -58,13 +58,13 @@ def get_tolls(coords: tuple[float, float], direction: str | None) -> list[dict]:
                 "distanceMiles": abs(start_milepost - toll["EndMilepost"]),
                 "costDollars": toll["CurrentToll"] / 100
             } for toll in tolls],
-            "startCoords": [tolls[0]["StartLatitude"], tolls[0]["StartLongitude"]]
+            "distanceBetweenStartAndUserMiles": compute_euclidean_distance(
+                (tolls[0]["StartLatitude"], tolls[0]["StartLongitude"]),
+                coords
+            )
         })
 
-    toll_groups.sort(key=lambda toll_group: compute_euclidean_distance(
-        tuple(toll_group["startCoords"]),
-        coords
-    ))
+    toll_groups.sort(key=lambda toll_group: toll_group["distanceBetweenStartAndUserMiles"])
 
     return toll_groups
     

@@ -71,7 +71,8 @@ async def get_nearby_tolls(
             "direction": toll_group["direction"],
             "ends": ends,
             "startCoords": toll_group["startCoords"],
-            "ETLSpeedGuess": is_ETL_speed_guess
+            "ETLSpeedGuess": is_ETL_speed_guess,
+            "distanceBetweenStartAndUserMiles": toll_group["distanceBetweenStartAndUserMiles"]
         })
 
     return final_toll_groups
