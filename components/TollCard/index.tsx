@@ -66,7 +66,9 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
                 <Text style={styles.metricLabel}>Time Saved</Text>
                 <Text style={styles.metricText}>{
                   end.timeSavedMin === null ? "-" :
-                  end.timeSavedMin > 0 ? `${end.timeSavedMin.toFixed(1)} min` : "None"
+                  end.timeSavedMin === 0 ? "None" :
+                  end.timeSavedMin < 1 ? `${(end.timeSavedMin * 60).toFixed(0)} sec` :
+                  `${end.timeSavedMin.toFixed(1)} min` 
                 }</Text>
               </View>
               <View style={styles.metric}>
