@@ -19,7 +19,7 @@ async def get_nearby_tolls(
     request: Request,
     direction: str | None = None
 ):
-    # validate_client(request)
+    validate_client(request)
 
     toll_groups = get_tolls(direction)
     add_etl_gp_travel_times(toll_groups)
