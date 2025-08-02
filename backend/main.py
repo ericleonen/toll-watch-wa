@@ -70,7 +70,6 @@ async def get_nearby_tolls(
             "stateRoute": STATE_ROUTE_NAMES_MAP[toll_group["stateRoute"]],
             "direction": toll_group["direction"],
             "ends": ends,
-            "startCoords": toll_group["startCoords"],
             "ETLSpeedGuess": is_ETL_speed_guess,
             "distanceBetweenStartAndUserMiles": toll_group["distanceBetweenStartAndUserMiles"]
         })
