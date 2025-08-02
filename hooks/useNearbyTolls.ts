@@ -1,4 +1,4 @@
-import { LYNNWOOD_TO_BELLEVUE_TOLLS_URL, OBFUSCATED_TOLLWATCH_API_KEY } from "@/constants/API";
+import { OBFUSCATED_TOLLWATCH_API_KEY, TOLLWATCH_NEARBY_TOLLS_URL } from "@/constants/API";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -14,7 +14,7 @@ export default function useNearbyTolls(
     useEffect(() => {
         // if (!location || !bearing) return;
 
-        axios.get(LYNNWOOD_TO_BELLEVUE_TOLLS_URL, {
+        axios.get(TOLLWATCH_NEARBY_TOLLS_URL, {
             headers: {
                 "Access-Code": atob(OBFUSCATED_TOLLWATCH_API_KEY)
             }

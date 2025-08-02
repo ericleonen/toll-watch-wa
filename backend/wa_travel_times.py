@@ -92,8 +92,8 @@ def add_etl_gp_travel_times(toll_groups: list[dict]):
         if best_etl_gp_pair:
             route_distance_miles = abs(best_etl_gp_pair["milePosts"][0] - best_etl_gp_pair["milePosts"][1])
 
-            toll_groups[i]["ETL_speed_mpm"] = route_distance_miles / best_etl_gp_pair["ETL_time_min"]
-            toll_groups[i]["GP_speed_mpm"] = route_distance_miles / best_etl_gp_pair["GP_time_min"]
+            toll_groups[i]["ETLSpeedMpm"] = route_distance_miles / best_etl_gp_pair["ETL_time_min"]
+            toll_groups[i]["GPSpeedMpm"] = route_distance_miles / best_etl_gp_pair["GP_time_min"]
 
             continue
 
@@ -113,8 +113,8 @@ def add_etl_gp_travel_times(toll_groups: list[dict]):
         if best_gp is not None:
             route_distance_miles = abs(best_gp["mileposts"][0] - best_gp["mileposts"][1])
 
-            toll_groups[i]["ETL_speed_mpm"] = None
-            toll_groups[i]["GP_speed_mpm"] = route_distance_miles / best_etl_gp_pair["ETL_time_min"]
+            toll_groups[i]["ETLSpeedMpm"] = None
+            toll_groups[i]["GPSpeedMpm"] = route_distance_miles / best_etl_gp_pair["ETL_time_min"]
         else:
-            toll_groups[i]["ETL_speed_mpm"] = None
-            toll_groups[i]["GP_speed_mpm"] = None
+            toll_groups[i]["ETLSpeedMpm"] = None
+            toll_groups[i]["GPSpeedMpm"] = None

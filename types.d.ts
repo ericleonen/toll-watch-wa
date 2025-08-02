@@ -3,17 +3,15 @@ type UserLocation = {
   longitude: number
 };
 
-type Direction = "Northbound" | "Southbound" | "Eastbound" | "Westbound";
+type Direction = "N" | "S" | "E" | "W";
 
 type TollGroup = {
     stateRoute: number,
     direction: Direction,
     startLocation: string
     ends: {
-      location: string,
-      cost: number,
-      timeSavedMin: number,
-      costPerMinSaved: number | null
+      distanceMiles: number,
+      cost: number
     }[]
 }
 
