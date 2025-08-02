@@ -1,18 +1,18 @@
 import { DirectionSelector } from "@/components/DirectionSelector";
 import TollSign from "@/components/TollCard";
-import useUpcomingTolls from "@/hooks/useUpcomingTolls";
+import useNearbyTolls from "@/hooks/useNearbyTolls";
 import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function Index() {
-  const upcomingTolls = useUpcomingTolls(null, null);
+  const nearbyTolls = useNearbyTolls(null, null);
   const [direction, setDirection]= useState<Direction>("Northbound");
 
   return (
     <View style={styles.container}>
       <DirectionSelector direction={direction} onChange={newDirection => setDirection(newDirection)}/>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        {upcomingTolls.map((tollGroup, index) => (
+        {nearbyTolls.map((tollGroup, index) => (
           <View key={index} style={styles.tollWrapper}>
             <TollSign tollGroup={tollGroup} />
           </View>

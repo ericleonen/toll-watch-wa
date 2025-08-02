@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 /**
  * Hook that provides upcoming tolls data given a location and bearing.
  */
-export default function useUpcomingTolls(
+export default function useNearbyTolls(
     location: UserLocation | null, 
     bearing: number | null
 ): Toll[] {
-    const [upcomingTolls, setUpcomingTolls] = useState<Toll[]>([]);
+    const [nearbyTolls, setNearbyTolls] = useState<Toll[]>([]);
 
     useEffect(() => {
         // if (!location || !bearing) return;
@@ -19,10 +19,10 @@ export default function useUpcomingTolls(
                 "Access-Code": atob(OBFUSCATED_TOLLWATCH_API_KEY)
             }
         }).then(
-            res => setUpcomingTolls(res.data)
+            res => setNearbyTolls(res.data)
         ).catch(err => console.error(err));
 
     }, []);
 
-    return upcomingTolls;
+    return nearbyTolls;
 }
