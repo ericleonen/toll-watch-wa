@@ -5,14 +5,31 @@ Helpers for accessing WSDOT tolls data.
 from dotenv import load_dotenv
 import os
 import requests
+import math
 
 load_dotenv()
 
 WSDOT_TOLLS_URL = "http://wsdot.wa.gov/Traffic/api/TollRates/TollRatesREST.svc/GetTollRatesAsJson"
 WSDOT_TRAVELER_API_KEY = os.getenv("WSDOT_TRAVELER_API_KEY")
 
-def compute_euclidean_distance(coords1: tuple[float, float], coords2: tuple[float, float]) -> float:
-    return ((coords1[0] - coords2[0])**2 + (coords1[1] - coords2[1])**2)**0.5
+def haversine_miles(coord1: tuple[float, float], coord2: tuple[float, float]):
+    # Radius of Earth in miles
+    R = 3958.8
+
+    lat1, lon1 = coord1
+    lat2, lon2 = coord2
+
+    # Convert degrees to radians
+    phi1 = math.radians(lat1)
+    phi2 = math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+
+    # Haversine formula
+    a = math.sin(dphi / 2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    return R * c
 
 def get_tolls(coords: tuple[float, float], direction: str | None) -> list[dict]:
     """
@@ -58,7 +75,7 @@ def get_tolls(coords: tuple[float, float], direction: str | None) -> list[dict]:
                 "distanceMiles": abs(start_milepost - toll["EndMilepost"]),
                 "costDollars": toll["CurrentToll"] / 100
             } for toll in tolls],
-            "distanceBetweenStartAndUserMiles": compute_euclidean_distance(
+            "distanceBetweenStartAndUserMiles": haversine_miles(
                 (tolls[0]["StartLatitude"], tolls[0]["StartLongitude"]),
                 coords
             )
