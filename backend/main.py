@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from validate import validate_client
 from wa_tolls import get_tolls
 from wa_travel_times import add_etl_gp_travel_times
+from state_route_names import STATE_ROUTE_NAMES_MAP
 
 app = FastAPI()
 
@@ -64,7 +65,7 @@ async def get_nearby_tolls(
             })
 
         final_toll_groups.append({
-            "stateRoute": toll_group["stateRoute"],
+            "stateRoute": STATE_ROUTE_NAMES_MAP[toll_group["stateRoute"]],
             "direction": toll_group["direction"],
             "startLocation": toll_group["startLocation"],
             "ends": ends,

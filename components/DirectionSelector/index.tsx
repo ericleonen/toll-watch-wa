@@ -1,3 +1,4 @@
+import { DIRECTIONS_MAP } from "@/constants/directions";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import {
@@ -15,10 +16,10 @@ type Props = {
 };
 
 const DIRECTION_ICONS: Record<Direction, string> = {
-  "Northbound": "arrow-up",
-  "Eastbound": "arrow-forward",
-  "Southbound": "arrow-down",
-  "Westbound": "arrow-back",
+  "N": "arrow-up",
+  "E": "arrow-forward",
+  "S": "arrow-down",
+  "W": "arrow-back",
 };
 
 export const DirectionSelector: React.FC<Props> = ({ direction, onChange }) => {
@@ -30,7 +31,7 @@ export const DirectionSelector: React.FC<Props> = ({ direction, onChange }) => {
         style={styles.selectorButton}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={styles.label}>Travelling {direction}</Text>
+        <Text style={styles.label}>Travelling {DIRECTIONS_MAP[direction]}</Text>
       </Pressable>
 
       <Modal

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
  */
 export default function useNearbyTolls(
     location: UserLocation | null, 
-    bearing: number | null
+    direction: Direction | null
 ): Toll[] {
     const [nearbyTolls, setNearbyTolls] = useState<Toll[]>([]);
 
@@ -17,12 +17,15 @@ export default function useNearbyTolls(
         axios.get(TOLLWATCH_NEARBY_TOLLS_URL, {
             headers: {
                 "Access-Code": atob(OBFUSCATED_TOLLWATCH_API_KEY)
+            },
+            params: {
+                "direction": direction
             }
         }).then(
             res => setNearbyTolls(res.data)
         ).catch(err => console.error(err));
 
-    }, []);
+    }, [direction]);
 
     return nearbyTolls;
 }

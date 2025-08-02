@@ -5,14 +5,17 @@ type UserLocation = {
 
 type Direction = "N" | "S" | "E" | "W";
 
-type TollGroup = {
+type Toll = {
     stateRoute: number,
     direction: Direction,
-    startLocation: string
+    startLocation: string,
     ends: {
-      distanceMiles: number,
-      cost: number
-    }[]
+      location: string,
+      costDollars: number,
+      timeSavedMin: number | null,
+      timeCostDollarsPerMin: null | number | string
+    }[],
+    ETLSpeedGuess: boolean
 }
 
 type MetricOption = "cost" | "timeSavedMin" | "costPerMinSaved";

@@ -1,3 +1,4 @@
+import { DIRECTIONS_MAP } from "@/constants/directions";
 import {
   Overpass_500Medium,
   Overpass_600SemiBold
@@ -11,16 +12,17 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 type TollCardProps = {
-  tollGroup: TollGroup;
+  toll: Toll;
 };
 
-const TollCard: React.FC<TollCardProps> = ({ tollGroup }) => {
+const TollCard: React.FC<TollCardProps> = ({ toll }) => {
   const {
     stateRoute,
     direction,
     startLocation,
-    ends
-  } = tollGroup;
+    ends,
+    ETLSpeedGuess
+  } = toll;
 
   const [loaded, error] = useFonts({
     ShareTechMono_400Regular,
@@ -34,10 +36,10 @@ const TollCard: React.FC<TollCardProps> = ({ tollGroup }) => {
     <View style={styles.cardWrapper}>
       <View style={styles.header}>
         <Text style={styles.route}>
-          I-{stateRoute} {direction.toUpperCase()}
+          I-{stateRoute} {DIRECTIONS_MAP[direction].toUpperCase()}
         </Text>
         <Text style={styles.startLocation}>
-          FROM {startLocation}
+          From {startLocation}
         </Text>
       </View>
       {
@@ -56,13 +58,14 @@ const TollCard: React.FC<TollCardProps> = ({ tollGroup }) => {
                 {/* <Ionicons name="cash-outline" size={20} color="#28a745" /> */}
                 <Text style={styles.metricLabel}>Cost</Text>
                 <Text style={styles.metricText}>{
-                  end.cost > 0 ? `$${end.cost.toFixed(2)}` : "Free"
+                  end.costDollars > 0 ? `$${end.costDollars.toFixed(2)}` : "Free"
                 }</Text>
               </View>
               <View style={styles.metric}>
                 {/* <Ionicons name="time-outline" size={20} color="#28a745" /> */}
                 <Text style={styles.metricLabel}>Time Saved</Text>
                 <Text style={styles.metricText}>{
+                  end.timeSavedMin === null ? "-" :
                   end.timeSavedMin > 0 ? `${end.timeSavedMin.toFixed(1)} min` : "None"
                 }</Text>
               </View>
@@ -70,9 +73,16 @@ const TollCard: React.FC<TollCardProps> = ({ tollGroup }) => {
                 {/* <Ionicons name="analytics-outline" size={20} color="#28a745" /> */}
                 <Text style={styles.metricLabel}>Time Cost</Text>
                 {
-                  end.costPerMinSaved === null && end.cost > 0 ? <Ionicons name="infinite" style={styles.metricIcon} /> :
-                  end.costPerMinSaved === null ? <Text style={styles.metricText}>-</Text> :
-                  <Text style={styles.metricText}>${end.costPerMinSaved.toFixed(2)}</Text>
+                  typeof end.timeCostDollarsPerMin === "number" ? (
+                    <Text style={styles.metricText}>
+                      ${end.timeCostDollarsPerMin.toFixed(2)}
+                    </Text>
+                  ):
+                  end.timeCostDollarsPerMin === "inf" ? (
+                    <Ionicons name="infinite" style={styles.metricIcon} />
+                  ) : (
+                    <Text style={styles.metricText}>-</Text>
+                  )
                 }
 
                 
@@ -117,8 +127,7 @@ const styles = StyleSheet.create({
     color: "#666",
     fontSize: 16,
     fontFamily: "Overpass_500Medium",
-    textAlign: "center",
-    marginTop: 4
+    textAlign: "center"
   },
   endWrapper: {
     padding: 16,
