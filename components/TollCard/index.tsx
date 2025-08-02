@@ -21,7 +21,8 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
     direction,
     startLocation,
     ends,
-    ETLSpeedGuess
+    ETLSpeedGuess,
+    distanceBetweenStartAndUserMiles
   } = toll;
 
   const [loaded, error] = useFonts({
@@ -39,7 +40,8 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
           {stateRoute} {DIRECTIONS_MAP[direction].toUpperCase()}
         </Text>
         <Text style={styles.startLocation}>
-          From {startLocation}
+          From {startLocation} 
+          <Text style={styles.startDistance}>{" ·  " + distanceBetweenStartAndUserMiles.toFixed(1)} mi</Text>
         </Text>
       </View>
       {
@@ -77,7 +79,10 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
                 {
                   typeof end.timeCostDollarsPerMin === "number" ? (
                     <Text style={styles.metricText}>
-                      ${end.timeCostDollarsPerMin.toFixed(2)}
+                      {
+                        end.timeCostDollarsPerMin > 0 ? `$${end.timeCostDollarsPerMin.toFixed(2)}` :
+                        "Free"
+                      }
                     </Text>
                   ):
                   end.timeCostDollarsPerMin === "inf" ? (
@@ -128,6 +133,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Overpass_500Medium",
     textAlign: "center"
+  },
+  startDistance: {
+    color: "#999",
   },
   endWrapper: {
     padding: 16,
