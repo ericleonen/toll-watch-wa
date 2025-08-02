@@ -36,7 +36,7 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
     <View style={styles.cardWrapper}>
       <View style={styles.header}>
         <Text style={styles.route}>
-          I-{stateRoute} {DIRECTIONS_MAP[direction].toUpperCase()}
+          {stateRoute} {DIRECTIONS_MAP[direction].toUpperCase()}
         </Text>
         <Text style={styles.startLocation}>
           From {startLocation}
@@ -46,7 +46,7 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
         ends.map((end, index) => (
           <View key={index} style={styles.endWrapper}>
             <View style={styles.endLocationWrapper}>
-              <Text style={styles.endLocation}>{end.location.toUpperCase()}</Text>
+              <Text style={styles.endLocation}>{end.location}</Text>
               <View style={styles.takeTag}>
                 <Ionicons name="checkmark-circle-outline" size={16} color="#28a745" />
                 <Text style={styles.takeText}>TAKE</Text>
