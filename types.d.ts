@@ -15,7 +15,8 @@ type Toll = {
       timeSavedMin: number | null,
       timeCostDollarsPerMin: null | number | string
     }[],
-    ETLSpeedGuess: boolean
+    ETLSpeedGuess: boolean,
+    distanceBetweenStartAndUserMiles: number
 }
 
 type MetricOption = "cost" | "timeSavedMin" | "costPerMinSaved";

@@ -86,8 +86,6 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
                     <Text style={styles.metricText}>-</Text>
                   )
                 }
-
-                
               </View>
             </View>
           </View>
