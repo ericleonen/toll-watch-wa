@@ -50,7 +50,10 @@ export const DirectionSelector: React.FC<Props> = ({ direction, onChange }) => {
               keyExtractor={(item) => item}
               renderItem={({ item }) => (
                 <Pressable
-                  style={styles.option}
+                  style={({ pressed }) => [
+                    styles.option,
+                    pressed && styles.optionPressed
+                  ]}
                   onPress={() => {
                     onChange(item);
                     setModalVisible(false);
@@ -61,7 +64,7 @@ export const DirectionSelector: React.FC<Props> = ({ direction, onChange }) => {
                       // @ts-ignore
                       name={DIRECTION_ICONS[item]}
                       size={18}
-                      color="#1e90ff"
+                      color="#087c5c"
                     />
                   </View>
                   <Text style={styles.optionLabel}>{DIRECTIONS_MAP[item]}</Text>
@@ -116,10 +119,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 8,
   },
+  optionPressed: {
+    backgroundColor: "#f0fdf9", // a soft green highlight
+  },
   iconBox: {
-    backgroundColor: "#e0f0ff",
+    backgroundColor: "#e6f4f1",
     padding: 8,
-    borderRadius: 8,
+    borderRadius: 10,
     marginRight: 12,
   },
   optionLabel: {

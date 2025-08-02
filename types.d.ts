@@ -6,17 +6,19 @@ type UserLocation = {
 type Direction = "N" | "S" | "E" | "W";
 
 type Toll = {
-    stateRoute: number,
-    direction: Direction,
-    startLocation: string,
-    ends: {
-      location: string,
-      costDollars: number,
-      timeSavedMin: number | null,
-      timeCostDollarsPerMin: null | number | string
-    }[],
-    ETLSpeedGuess: boolean,
-    distanceBetweenStartAndUserMiles: number
+  stateRoute: number,
+  direction: Direction,
+  startLocation: string,
+  ends: TollEnd[],
+  ETLSpeedGuess: boolean,
+  distanceBetweenStartAndUserMiles: number
+}
+
+type TollEnd = {
+  location: string,
+  costDollars: number,
+  timeSavedMin: number | null,
+  timeCostDollarsPerMin: null | number | string
 }
 
 type MetricOption = "cost" | "timeSavedMin" | "costPerMinSaved";

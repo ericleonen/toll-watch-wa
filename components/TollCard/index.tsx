@@ -1,4 +1,5 @@
 import { DIRECTIONS_MAP } from "@/constants/directions";
+import { useSettings } from "@/contexts/SettingsContext";
 import {
   Overpass_500Medium,
   Overpass_600SemiBold
@@ -33,6 +34,20 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
 
   if (!loaded || error) return null;
 
+  const { maxCost, minTimeSaved, maxTimeCost } = useSettings();
+
+  const getDecision = (end: TollEnd) => {
+    if (
+      end.costDollars <= maxCost ||
+      (end.timeSavedMin && end.timeSavedMin >= minTimeSaved) ||
+      (typeof end.timeCostDollarsPerMin === "number" && end.timeCostDollarsPerMin < maxTimeCost)
+    ) {
+      return "take";
+    } else {
+      return "skip";
+    }
+  }
+
   return (
     <View style={styles.cardWrapper}>
       <View style={styles.header}>
@@ -49,10 +64,20 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
           <View key={index} style={styles.endWrapper}>
             <View style={styles.endLocationWrapper}>
               <Text style={styles.endLocation}>{end.location}</Text>
-              <View style={styles.takeTag}>
-                <Ionicons name="checkmark-circle-outline" size={16} color="#28a745" />
-                <Text style={styles.takeText}>TAKE</Text>
-              </View>
+              {
+                getDecision(end) === "take" ? (
+                  <View style={styles.takeTag}>
+                    <Ionicons name="checkmark-circle-outline" size={16} color="#28a745" />
+                    <Text style={styles.takeText}>TAKE</Text>
+                  </View>
+                ) : (
+                  <View style={styles.skipTag}>
+                    <Ionicons name="close-outline" size={16} color="#dc3545" />
+                    <Text style={styles.skipText}>SKIP</Text>
+                  </View>
+                )
+              }
+              
             </View>
 
             <View style={styles.metricsRow}>
@@ -166,6 +191,22 @@ const styles = StyleSheet.create({
   },
   takeText: {
     color: "#28a745",
+    fontFamily: "Overpass_500Medium",
+    fontSize: 14,
+    marginLeft: 4,
+  },
+  skipTag: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#dc3545",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 14,
+    backgroundColor: "#f8d7da",
+  },
+  skipText: {
+    color: "#dc3545",
     fontFamily: "Overpass_500Medium",
     fontSize: 14,
     marginLeft: 4,
