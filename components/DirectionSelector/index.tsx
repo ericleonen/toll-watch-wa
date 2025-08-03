@@ -1,3 +1,4 @@
+import Colors from "@/constants/Colors";
 import { DIRECTIONS_MAP } from "@/constants/directions";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
@@ -64,7 +65,7 @@ export const DirectionSelector: React.FC<Props> = ({ direction, onChange }) => {
                       // @ts-ignore
                       name={DIRECTION_ICONS[item]}
                       size={18}
-                      color="#087c5c"
+                      color={Colors.darkGreen}
                     />
                   </View>
                   <Text style={styles.optionLabel}>{DIRECTIONS_MAP[item]}</Text>
@@ -84,30 +85,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 12,
     backgroundColor: "white",
-    borderRadius: 10,
     justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.lightGray
   },
   label: {
     fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-    marginRight: 6
+    color: Colors.black,
+    marginRight: 6,
+    fontFamily: "Poppins_500Medium"
   },
   dropdownIcon: {
-    color: "#666",
+    color: Colors.gray,
   },
   modalBackdrop: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.4)"
+    backgroundColor: Colors.transparentBlack
   },
   modalContent: {
     marginHorizontal: 32,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.white,
     borderRadius: 12,
     paddingVertical: 8,
     paddingHorizontal: 12,
@@ -120,17 +118,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   optionPressed: {
-    backgroundColor: "#f0fdf9", // a soft green highlight
+    backgroundColor: Colors.lighterGray
   },
   iconBox: {
-    backgroundColor: "#e6f4f1",
+    backgroundColor: Colors.lightGreen,
     padding: 8,
     borderRadius: 10,
     marginRight: 12,
   },
   optionLabel: {
     fontSize: 16,
-    color: "#222",
-    fontWeight: "500",
+    color: Colors.black,
+    fontFamily: "Poppins_500Medium"
   },
 });

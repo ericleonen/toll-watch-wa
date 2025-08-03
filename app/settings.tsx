@@ -1,3 +1,4 @@
+import Colors from "@/constants/Colors";
 import { useSettings } from "@/contexts/SettingsContext";
 import {
   Overpass_500Medium,
@@ -38,12 +39,12 @@ export default function Settings() {
         <View style={styles.settingCard}>
           <View style={styles.cardHeader}>
             <View style={styles.iconContainer}>
-              <Ionicons name="cash-outline" size={22} color="#087c5c" />
+              <Ionicons name="cash-outline" size={22} color={Colors.darkGreen} />
             </View>
             <View style={styles.labelContainer}>
-              <Text style={styles.labelText}>Maximum Cost</Text>
+              <Text style={styles.labelText}>Max Cost</Text>
               <Text style={styles.description}>
-                The most you're willing to pay for toll roads
+                What's the most you'll pay for a toll?
               </Text>
             </View>
             <View style={styles.valueContainer}>
@@ -58,9 +59,9 @@ export default function Settings() {
               step={0.05}
               value={maxCost}
               onValueChange={(val: number) => updateSetting("maxCost", val)}
-              minimumTrackTintColor="#087c5c"
-              maximumTrackTintColor="#e5e5e5"
-              thumbTintColor="#087c5c"
+              minimumTrackTintColor={Colors.darkGreen}
+              maximumTrackTintColor={Colors.gray}
+              thumbTintColor={Colors.darkGreen}
             />
             <View style={styles.sliderLabels}>
               <Text style={styles.sliderLabel}>$0.00</Text>
@@ -73,12 +74,12 @@ export default function Settings() {
         <View style={styles.settingCard}>
           <View style={styles.cardHeader}>
             <View style={styles.iconContainer}>
-              <Ionicons name="time-outline" size={22} color="#087c5c" />
+              <Ionicons name="time-outline" size={22} color={Colors.darkGreen} />
             </View>
             <View style={styles.labelContainer}>
-              <Text style={styles.labelText}>Minimum Time Saved</Text>
+              <Text style={styles.labelText}>Min Time Saved</Text>
               <Text style={styles.description}>
-                Only take toll roads that save at least this much time
+                What's the least amount of time you expect to save?
               </Text>
             </View>
             <View style={styles.valueContainer}>
@@ -97,9 +98,9 @@ export default function Settings() {
               step={0.1}
               value={minTimeSaved}
               onValueChange={(val: number) => updateSetting("minTimeSaved", val)}
-              minimumTrackTintColor="#087c5c"
-              maximumTrackTintColor="#e5e5e5"
-              thumbTintColor="#087c5c"
+              minimumTrackTintColor={Colors.darkGreen}
+              maximumTrackTintColor={Colors.gray}
+              thumbTintColor={Colors.darkGreen}
             />
             <View style={styles.sliderLabels}>
               <Text style={styles.sliderLabel}>0 min</Text>
@@ -117,7 +118,7 @@ export default function Settings() {
             <View style={styles.labelContainer}>
               <Text style={styles.labelText}>Max Time Cost</Text>
               <Text style={styles.description}>
-                Maximum you'll pay per minute of time saved
+                How much is a minute of your time worth?
               </Text>
             </View>
             <View style={styles.valueContainer}>
@@ -134,9 +135,9 @@ export default function Settings() {
               step={0.05}
               value={maxTimeCost}
               onValueChange={(val: number) => updateSetting("maxTimeCost", val)}
-              minimumTrackTintColor="#087c5c"
-              maximumTrackTintColor="#e5e5e5"
-              thumbTintColor="#087c5c"
+              minimumTrackTintColor={Colors.darkGreen}
+              maximumTrackTintColor={Colors.gray}
+              thumbTintColor={Colors.darkGreen}
             />
             <View style={styles.sliderLabels}>
               <Text style={styles.sliderLabel}>$0.00</Text>
@@ -151,34 +152,35 @@ export default function Settings() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: Colors.darkWhite
   },
   content: {
     paddingBottom: 40,
   },
   paragraph: {
     fontSize: 16,
-    color: "#555",
-    fontFamily: "Overpass_500Medium",
-    marginBottom: 28,
+    color: Colors.darkGray,
+    fontFamily: "Poppins_400Regular",
     lineHeight: 24,
-    backgroundColor: "white",
+    backgroundColor: Colors.white,
     padding: 20
   },
   settingCard: {
-    marginBottom: 24,
-    padding: 16
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: Colors.lightGray
   },
   cardHeader: {
     flexDirection: "row",
     alignItems: "flex-start",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   iconContainer: {
     width: 44,
     height: 44,
     borderRadius: 12,
-    backgroundColor: "rgba(8, 124, 92, 0.1)",
+    backgroundColor: Colors.lightGreen,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 16,
@@ -188,15 +190,14 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 18,
-    fontFamily: "Overpass_600SemiBold",
-    color: "#2c3e50",
+    fontFamily: "Poppins_500Medium",
+    color: Colors.darkGray,
     marginBottom: 6,
   },
   description: {
     fontSize: 14,
-    color: "#7f8c8d",
-    fontFamily: "Overpass_500Medium",
-    lineHeight: 20,
+    color: Colors.gray,
+    fontFamily: "Poppins_500Medium",
   },
   valueContainer: {
     alignItems: "flex-end",
@@ -205,8 +206,8 @@ const styles = StyleSheet.create({
   },
   valueText: {
     fontSize: 18,
-    color: "#087c5c",
-    fontFamily: "Overpass_600SemiBold",
+    color: Colors.darkGreen,
+    fontFamily: "Poppins_500Medium",
     textAlign: "right",
   },
   sliderContainer: {
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
   },
   sliderLabel: {
     fontSize: 12,
-    color: "#95a5a6",
-    fontFamily: "Overpass_500Medium",
+    color: Colors.gray,
+    fontFamily: "Poppins_500Medium",
   },
 });

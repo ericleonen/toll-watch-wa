@@ -1,3 +1,4 @@
+import Colors from "@/constants/Colors";
 import { DIRECTIONS_MAP } from "@/constants/directions";
 import { useSettings } from "@/contexts/SettingsContext";
 import {
@@ -16,6 +17,19 @@ type TollCardProps = {
   toll: Toll;
 };
 
+const suggestionConfig = {
+  "take": {
+    icon: "checkmark-circle-outline",
+    color: Colors.successGreen,
+    backgroundColor: Colors.lightSuccessGreen
+  },
+  "skip": {
+    icon: "close-outline",
+    color: Colors.failureRed,
+    backgroundColor: Colors.lightFailureRed
+  }
+}
+
 const TollCard: React.FC<TollCardProps> = ({ toll }) => {
   const {
     stateRoute,
@@ -32,11 +46,11 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
     Overpass_600SemiBold
   });
 
-  if (!loaded || error) return null;
-
   const { maxCost, minTimeSaved, maxTimeCost } = useSettings();
 
-  const getDecision = (end: TollEnd) => {
+  if (!loaded || error) return null;
+
+  const getSuggestion = (end: TollEnd) => {
     if (
       end.costDollars <= maxCost ||
       (end.timeSavedMin && end.timeSavedMin >= minTimeSaved) ||
@@ -60,66 +74,73 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
         </Text>
       </View>
       {
-        ends.map((end, index) => (
-          <View key={index} style={styles.endWrapper}>
-            <View style={styles.endLocationWrapper}>
-              <Text style={styles.endLocation}>{end.location}</Text>
-              {
-                getDecision(end) === "take" ? (
-                  <View style={styles.takeTag}>
-                    <Ionicons name="checkmark-circle-outline" size={16} color="#28a745" />
-                    <Text style={styles.takeText}>TAKE</Text>
-                  </View>
-                ) : (
-                  <View style={styles.skipTag}>
-                    <Ionicons name="close-outline" size={16} color="#dc3545" />
-                    <Text style={styles.skipText}>SKIP</Text>
-                  </View>
-                )
-              }
-              
-            </View>
+        ends.map((end, index) => {
+          const suggestion = getSuggestion(end);
+          const { icon, color, backgroundColor } = suggestionConfig[suggestion];
 
-            <View style={styles.metricsRow}>
-              <View style={styles.metric}>
-                {/* <Ionicons name="cash-outline" size={20} color="#28a745" /> */}
-                <Text style={styles.metricLabel}>Cost</Text>
-                <Text style={styles.metricText}>{
-                  end.costDollars > 0 ? `$${end.costDollars.toFixed(2)}` : "Free"
-                }</Text>
+          return (
+            <View key={index} style={styles.endWrapper}>
+              <View style={styles.endLocationWrapper}>
+                <Text style={styles.endLocation}>{end.location}</Text>
+                <View style={{
+                  borderColor: color,
+                  backgroundColor,
+                  ...styles.suggestionTag
+                }}>
+                  <Ionicons 
+                    // @ts-ignore
+                    name={icon} 
+                    size={16} 
+                    color={color} 
+                  />
+                  <Text 
+                    style={{
+                      color,
+                      ...styles.suggestionText
+                    }}
+                  >
+                    {suggestion.toUpperCase()}
+                  </Text>
+                </View>
               </View>
-              <View style={styles.metric}>
-                {/* <Ionicons name="time-outline" size={20} color="#28a745" /> */}
-                <Text style={styles.metricLabel}>Time Saved</Text>
-                <Text style={styles.metricText}>{
-                  end.timeSavedMin === null ? "-" :
-                  end.timeSavedMin === 0 ? "None" :
-                  end.timeSavedMin < 1 ? `${(end.timeSavedMin * 60).toFixed(0)} sec` :
-                  `${end.timeSavedMin.toFixed(1)} min` 
-                }</Text>
-              </View>
-              <View style={styles.metric}>
-                {/* <Ionicons name="analytics-outline" size={20} color="#28a745" /> */}
-                <Text style={styles.metricLabel}>Time Cost</Text>
-                {
-                  typeof end.timeCostDollarsPerMin === "number" ? (
-                    <Text style={styles.metricText}>
-                      {
-                        end.timeCostDollarsPerMin > 0 ? `$${end.timeCostDollarsPerMin.toFixed(2)}` :
-                        "Free"
-                      }
-                    </Text>
-                  ):
-                  end.timeCostDollarsPerMin === "inf" ? (
-                    <Ionicons name="infinite" style={styles.metricIcon} />
-                  ) : (
-                    <Text style={styles.metricText}>-</Text>
-                  )
-                }
+              <View style={styles.metricsRow}>
+                <View style={styles.metric}>
+                  <Text style={styles.metricLabel}>Cost</Text>
+                  <Text style={styles.metricText}>{
+                    end.costDollars > 0 ? `$${end.costDollars.toFixed(2)}` : "Free"
+                  }</Text>
+                </View>
+                <View style={styles.metric}>
+                  <Text style={styles.metricLabel}>Time Saved</Text>
+                  <Text style={styles.metricText}>{
+                    end.timeSavedMin === null ? "-" :
+                    end.timeSavedMin === 0 ? "None" :
+                    end.timeSavedMin < 1 ? `${(end.timeSavedMin * 60).toFixed(0)} sec` :
+                    `${end.timeSavedMin.toFixed(1)} min` 
+                  }</Text>
+                </View>
+                <View style={styles.metric}>
+                  <Text style={styles.metricLabel}>Time Cost</Text>
+                  {
+                    typeof end.timeCostDollarsPerMin === "number" ? (
+                      <Text style={styles.metricText}>
+                        {
+                          end.timeCostDollarsPerMin > 0 ? `$${end.timeCostDollarsPerMin.toFixed(2)}` :
+                          "Free"
+                        }
+                      </Text>
+                    ):
+                    end.timeCostDollarsPerMin === "inf" ? (
+                      <Ionicons name="infinite" style={styles.metricIcon} />
+                    ) : (
+                      <Text style={styles.metricText}>-</Text>
+                    )
+                  }
+                </View>
               </View>
             </View>
-          </View>
-        ))
+          );
+        })
       }
     </View>
   );
@@ -127,7 +148,7 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
 
 const styles = StyleSheet.create({
   cardWrapper: {
-    backgroundColor: "#ffffffee", // slightly transparent white
+    backgroundColor: Colors.white,
     borderRadius: 16,
     overflow: "hidden",
     margin: 16,
@@ -135,36 +156,36 @@ const styles = StyleSheet.create({
     maxWidth: 400,
     alignSelf: "center",
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
   },
   header: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: Colors.lighterGray,
     padding: 16,
     alignItems: "center",
-    borderBottomColor: "#e0e0e0",
-    borderBottomWidth: 1,
+    borderBottomColor: Colors.lightGray,
+    borderBottomWidth: 1
   },
   route: {
     fontSize: 20,
-    color: "#222",
+    color: Colors.black,
     fontFamily: "Overpass_600SemiBold",
     textAlign: "center"
   },
   startLocation: {
-    color: "#666",
+    color: Colors.darkGray,
     fontSize: 16,
     fontFamily: "Overpass_500Medium",
     textAlign: "center"
   },
   startDistance: {
-    color: "#999",
+    color: Colors.gray,
   },
   endWrapper: {
     padding: 16,
-    borderBottomColor: "#eee",
+    borderBottomColor: Colors.lightGray,
     borderBottomWidth: 1,
     backgroundColor: "#fdfdfd",
   },
@@ -176,40 +197,23 @@ const styles = StyleSheet.create({
   },
   endLocation: {
     fontSize: 18,
+    lineHeight: 24,
     fontFamily: "Overpass_600SemiBold",
-    color: "#111",
+    color: Colors.black,
   },
-  takeTag: {
+  suggestionTag: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#28a745",
     paddingHorizontal: 8,
     paddingVertical: 2,
-    borderRadius: 14,
-    backgroundColor: "#e9f9ee",
+    borderRadius: 999
   },
-  takeText: {
-    color: "#28a745",
-    fontFamily: "Overpass_500Medium",
+  suggestionText: {
+    fontFamily: "Poppins_500Medium",
     fontSize: 14,
     marginLeft: 4,
-  },
-  skipTag: {
-    flexDirection: "row",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#dc3545",
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 14,
-    backgroundColor: "#f8d7da",
-  },
-  skipText: {
-    color: "#dc3545",
-    fontFamily: "Overpass_500Medium",
-    fontSize: 14,
-    marginLeft: 4,
+    lineHeight: 24
   },
   metricsRow: {
     flexDirection: "row",
@@ -217,29 +221,29 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   metric: {
-    backgroundColor: "#f3f4f6",
+    backgroundColor: Colors.lighterGray,
     borderRadius: 10,
     padding: 10,
     flex: 1,
     alignItems: "center",
-    shadowColor: "#000",
+    shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
   },
   metricLabel: {
     fontSize: 12,
-    color: "#666",
-    fontFamily: "Overpass_500Medium"
+    color: Colors.gray,
+    fontFamily: "Poppins_500Medium"
   },
   metricText: {
-    fontFamily: "Overpass_500Medium",
+    fontFamily: "Poppins_500Medium",
     fontSize: 16,
-    color: "#222"
+    color: Colors.darkGray
   },
   metricIcon: {
     fontSize: 20,
-    color: "#222",
+    color: Colors.darkGray,
     marginTop: 4
   }
 });

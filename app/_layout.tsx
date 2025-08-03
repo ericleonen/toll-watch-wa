@@ -1,10 +1,12 @@
 import Logo from "@/components/Logo";
+import Colors from "@/constants/Colors";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import {
   Lato_400Regular,
   Lato_700Bold
 } from "@expo-google-fonts/lato";
 import {
+  Poppins_400Regular,
   Poppins_700Bold,
   useFonts
 } from "@expo-google-fonts/poppins";
@@ -18,6 +20,7 @@ export default function RootLayout() {
   const [fontsLoaded, error] = useFonts({
     Lato_400Regular,
     Lato_700Bold,
+    Poppins_400Regular,
     Poppins_700Bold,
   });
 
@@ -31,7 +34,7 @@ export default function RootLayout() {
           options={{
             headerTitle: () => <Logo />,
             headerStyle: {
-              backgroundColor: "#087c5c",
+              backgroundColor: Colors.darkGreen,
             },
             headerRight: () => (
               <Link href="/settings" asChild>
@@ -50,7 +53,7 @@ export default function RootLayout() {
                 style={{
                   fontFamily: "Poppins_700Bold",
                   fontSize: 20,
-                  color: "#fff",
+                  color: Colors.white,
                   marginLeft: 8
                 }}
               >
@@ -58,15 +61,15 @@ export default function RootLayout() {
               </Text>
             ),
             headerStyle: {
-              backgroundColor: "#087c5c",
+              backgroundColor: Colors.darkGreen,
             },
-            headerTintColor: "#fff",
+            headerTintColor: Colors.white,
             headerLeft: () => (
               <Pressable
                 onPress={() => router.back()}
                 style={{ paddingLeft: 16 }}
               >
-                <Ionicons name="arrow-back-outline" size={32} color="#fff" />
+                <Ionicons name="arrow-back-outline" size={32} color={Colors.white} />
               </Pressable>
             ),
           }}
