@@ -15,4 +15,6 @@ const Colors = {
     black: "#1a1a1a"
 }
 
+export type Color = typeof Colors[keyof typeof Colors]
+
 export default Colors;

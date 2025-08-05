@@ -2,11 +2,8 @@ import Logo from "@/components/Logo";
 import Colors from "@/constants/Colors";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import {
-  Lato_400Regular,
-  Lato_700Bold
-} from "@expo-google-fonts/lato";
-import {
   Poppins_400Regular,
+  Poppins_500Medium,
   Poppins_700Bold,
   useFonts
 } from "@expo-google-fonts/poppins";
@@ -18,9 +15,8 @@ export default function RootLayout() {
   const router = useRouter();
 
   const [fontsLoaded, error] = useFonts({
-    Lato_400Regular,
-    Lato_700Bold,
     Poppins_400Regular,
+    Poppins_500Medium,
     Poppins_700Bold,
   });
 

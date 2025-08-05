@@ -20,5 +20,3 @@ type TollEnd = {
   timeSavedMin: number | null,
   timeCostDollarsPerMin: null | number | string
 }
-
-type MetricOption = "cost" | "timeSavedMin" | "costPerMinSaved";
