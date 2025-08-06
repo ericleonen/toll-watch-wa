@@ -1,30 +1,36 @@
+import Setting from "@/components/Setting";
 import Colors from "@/constants/Colors";
 import Fonts from "@/constants/Fonts";
 import { useSettings } from "@/contexts/SettingsContext";
+import { useEffect, useState } from "react";
 import {
-  Overpass_500Medium,
-  Overpass_600SemiBold
-} from "@expo-google-fonts/overpass";
-import { Ionicons } from "@expo/vector-icons";
-import Slider from "@react-native-community/slider";
-import { useFonts } from "expo-font";
-import {
+  Pressable,
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
-  View
+  Text
 } from "react-native";
 
 export default function Settings() {
   const { maxCost, minTimeSaved, maxTimeCost, updateSetting } = useSettings();
 
-  const [loaded, error] = useFonts({
-    Overpass_600SemiBold,
-    Overpass_500Medium,
-  });
+  const [currMaxCost, setCurrMaxCost] = useState(maxCost);
+  const [currMinTimeSaved, setCurrMinTimeSaved] = useState(minTimeSaved);
+  const [currMaxTimeCost, setCurrMaxTimeCost] = useState(maxTimeCost);
 
-  if (!loaded || error) return null;
+  const [isSaved, setIsSaved] = useState(false);
+
+  const updateSettings = () => {
+    updateSetting("maxCost", currMaxCost);
+    updateSetting("minTimeSaved", currMinTimeSaved);
+    updateSetting("maxTimeCost", currMaxTimeCost);
+
+    setIsSaved(true);
+  };
+
+  useEffect(() => {
+    setIsSaved(false);
+  }, [currMaxCost, currMinTimeSaved, currMaxTimeCost, setIsSaved]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,117 +41,56 @@ export default function Settings() {
         <Text style={styles.paragraph}>
           Adjust these sliders to define when a toll is "worth taking" for you. We'll use your preferences to help you decide which express lanes save you time and money.
         </Text>
-
-        {/* Max Cost */}
-        <View style={styles.settingCard}>
-          <View style={styles.cardHeader}>
-            <View style={styles.iconContainer}>
-              <Ionicons name="cash-outline" size={22} color={Colors.darkGreen} />
-            </View>
-            <View style={styles.labelContainer}>
-              <Text style={styles.labelText}>Max Cost</Text>
-              <Text style={styles.description}>
-                What's the most you'll pay for a toll?
-              </Text>
-            </View>
-            <View style={styles.valueContainer}>
-              <Text style={styles.valueText}>${maxCost.toFixed(2)}</Text>
-            </View>
-          </View>
-          <View style={styles.sliderContainer}>
-            <Slider
-              style={styles.slider}
-              minimumValue={0}
-              maximumValue={15}
-              step={0.05}
-              value={maxCost}
-              onValueChange={(val: number) => updateSetting("maxCost", val)}
-              minimumTrackTintColor={Colors.darkGreen}
-              maximumTrackTintColor={Colors.gray}
-              thumbTintColor={Colors.darkGreen}
-            />
-            <View style={styles.sliderLabels}>
-              <Text style={styles.sliderLabel}>$0.00</Text>
-              <Text style={styles.sliderLabel}>$15.00</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Min Time Saved */}
-        <View style={styles.settingCard}>
-          <View style={styles.cardHeader}>
-            <View style={styles.iconContainer}>
-              <Ionicons name="time-outline" size={22} color={Colors.darkGreen} />
-            </View>
-            <View style={styles.labelContainer}>
-              <Text style={styles.labelText}>Min Time Saved</Text>
-              <Text style={styles.description}>
-                What's the least amount of time you expect to save?
-              </Text>
-            </View>
-            <View style={styles.valueContainer}>
-              <Text style={styles.valueText}>
-                {minTimeSaved < 1
-                  ? `${(minTimeSaved * 60).toFixed(0)} sec`
-                  : `${minTimeSaved.toFixed(1)} min`}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.sliderContainer}>
-            <Slider
-              style={styles.slider}
-              minimumValue={0}
-              maximumValue={10}
-              step={0.1}
-              value={minTimeSaved}
-              onValueChange={(val: number) => updateSetting("minTimeSaved", val)}
-              minimumTrackTintColor={Colors.darkGreen}
-              maximumTrackTintColor={Colors.gray}
-              thumbTintColor={Colors.darkGreen}
-            />
-            <View style={styles.sliderLabels}>
-              <Text style={styles.sliderLabel}>0 min</Text>
-              <Text style={styles.sliderLabel}>10 min</Text>
-            </View>
-          </View>
-        </View>
-
-        {/* Max Time Cost */}
-        <View style={styles.settingCard}>
-          <View style={styles.cardHeader}>
-            <View style={styles.iconContainer}>
-              <Ionicons name="analytics-outline" size={22} color="#087c5c" />
-            </View>
-            <View style={styles.labelContainer}>
-              <Text style={styles.labelText}>Max Time Cost</Text>
-              <Text style={styles.description}>
-                How much is a minute of your time worth?
-              </Text>
-            </View>
-            <View style={styles.valueContainer}>
-              <Text style={styles.valueText}>
-                ${maxTimeCost.toFixed(2)}/min
-              </Text>
-            </View>
-          </View>
-          <View style={styles.sliderContainer}>
-            <Slider
-              style={styles.slider}
-              minimumValue={0}
-              maximumValue={10}
-              step={0.05}
-              value={maxTimeCost}
-              onValueChange={(val: number) => updateSetting("maxTimeCost", val)}
-              minimumTrackTintColor={Colors.darkGreen}
-              maximumTrackTintColor={Colors.gray}
-              thumbTintColor={Colors.darkGreen}
-            />
-            <View style={styles.sliderLabels}>
-              <Text style={styles.sliderLabel}>$0.00</Text>
-              <Text style={styles.sliderLabel}>$10.00</Text>
-            </View>
-          </View>
-        </View>
+        <Setting
+          label="Max Cost"
+          icon="cash-outline"
+          description="What's the most you'll py for a toll?"
+          minValue={0}
+          maxValue={15}
+          step={0.05}
+          value={currMaxCost}
+          setValue={setCurrMaxCost}
+          formatValue={(value: number) => `$${value.toFixed(2)}`}
+        />
+        <Setting
+          label="Min Time Saved"
+          icon="time-outline"
+          description="What's the least amount of time you expect to save?"
+          minValue={0}
+          maxValue={10}
+          step={0.1}
+          value={currMinTimeSaved}
+          setValue={setCurrMinTimeSaved}
+          formatValue={(value: number) => {
+            if (value < 1) {
+              return `${(value * 60).toFixed(0)} sec`
+            } else {
+              return `${value.toFixed(1)} min`;
+            }
+          }}
+        />
+        <Setting 
+          label="Max Time Cost"
+          icon="analytics-outline"
+          description="How much is a minute of your time worth?"
+          minValue={0}
+          maxValue={10}
+          step={0.05}
+          value={currMaxTimeCost}
+          setValue={setCurrMaxTimeCost}
+          formatValue={(value: number) => `$${value.toFixed(2)}/min`}
+        />
+        <Pressable 
+          onPress={updateSettings}
+          style={({ pressed }) => [
+            styles.saveButton,
+            pressed && styles.saveButtonPressed
+          ]}
+        >
+          <Text style={styles.saveButtonLabel}>{
+            isSaved ? "Saved" : "Save"  
+          }</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
@@ -157,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.darkWhite
   },
   content: {
-    paddingBottom: 40,
+    paddingBottom: 40
   },
   paragraph: {
     fontSize: 16,
@@ -167,66 +112,20 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     padding: 20
   },
-  settingCard: {
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: Colors.lightGray
+  saveButton: {
+    backgroundColor: Colors.darkGreen,
+    marginTop: 20,
+    marginHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 4
   },
-  cardHeader: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    marginBottom: 10,
+  saveButtonPressed: {
+    opacity: 0.9
   },
-  iconContainer: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: Colors.lightGreen,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 16,
-  },
-  labelContainer: {
-    flex: 1,
-  },
-  labelText: {
-    fontSize: 18,
+  saveButtonLabel: {
+    textAlign: "center",
+    color: Colors.white,
     fontFamily: Fonts.Default.Medium,
-    color: Colors.darkGray,
-    marginBottom: 6,
-  },
-  description: {
-    fontSize: 14,
-    color: Colors.gray,
-    fontFamily: Fonts.Default.Medium,
-  },
-  valueContainer: {
-    alignItems: "flex-end",
-    justifyContent: "center",
-    minWidth: 80,
-  },
-  valueText: {
-    fontSize: 18,
-    color: Colors.darkGreen,
-    fontFamily: Fonts.Default.Medium,
-    textAlign: "right",
-  },
-  sliderContainer: {
-    paddingHorizontal: 4,
-  },
-  slider: {
-    width: "100%",
-    height: 40,
-  },
-  sliderLabels: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 8,
-    marginTop: 8,
-  },
-  sliderLabel: {
-    fontSize: 12,
-    color: Colors.gray,
-    fontFamily: Fonts.Default.Medium,
-  },
+    fontSize: 16
+  }
 });
