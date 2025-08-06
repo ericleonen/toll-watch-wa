@@ -12,7 +12,7 @@ import {
   View
 } from "react-native";
 
-type Props = {
+type DirectionSelectorProps = {
   direction: Direction;
   onChange: (direction: Direction) => void;
 };
@@ -24,7 +24,7 @@ const DIRECTION_ICONS: Record<Direction, string> = {
   W: "arrow-back",
 };
 
-export const DirectionSelector: React.FC<Props> = ({ direction, onChange }) => {
+export const DirectionSelector: React.FC<DirectionSelectorProps> = ({ direction, onChange }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
