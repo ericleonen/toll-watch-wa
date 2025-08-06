@@ -24,12 +24,12 @@ export default function RootLayout() {
           options={{
             headerTitle: () => <Logo />,
             headerStyle: {
-              backgroundColor: Colors.darkGreen,
+              backgroundColor: Colors.DarkGreen,
             },
             headerRight: () => (
               <Link href="/settings" asChild>
                 <Pressable style={{ paddingRight: 16 }}>
-                  <Ionicons name="options-outline" size={32} color="#fff" />
+                  <Ionicons name="options-outline" size={32} color={Colors.White} />
                 </Pressable>
               </Link>
             ),
@@ -43,7 +43,7 @@ export default function RootLayout() {
                 style={{
                   fontFamily: Fonts.Default.Bold,
                   fontSize: 20,
-                  color: Colors.white,
+                  color: Colors.White,
                   marginLeft: 8
                 }}
               >
@@ -51,15 +51,15 @@ export default function RootLayout() {
               </Text>
             ),
             headerStyle: {
-              backgroundColor: Colors.darkGreen,
+              backgroundColor: Colors.DarkGreen,
             },
-            headerTintColor: Colors.white,
+            headerTintColor: Colors.White,
             headerLeft: () => (
               <Pressable
                 onPress={() => router.back()}
                 style={{ paddingLeft: 16 }}
               >
-                <Ionicons name="arrow-back-outline" size={32} color={Colors.white} />
+                <Ionicons name="arrow-back-outline" size={32} color={Colors.White} />
               </Pressable>
             ),
           }}
