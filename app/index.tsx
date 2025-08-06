@@ -1,4 +1,5 @@
 import { DirectionSelector } from "@/components/DirectionSelector";
+import Loader from "@/components/Loader";
 import TollCard from "@/components/TollCard";
 import useNearbyTolls from "@/hooks/useNearbyTolls";
 import useUserLocationAndBearing from "@/hooks/useUserLocationAndBearing";
@@ -6,29 +7,47 @@ import { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 export default function Index() {
-  const { location, bearing } = useUserLocationAndBearing();
+  const { location } = useUserLocationAndBearing();
   const [direction, setDirection]= useState<Direction>("N");
   const nearbyTolls = useNearbyTolls(location, direction);
 
   return (
     <View style={styles.container}>
       <DirectionSelector direction={direction} onChange={newDirection => setDirection(newDirection)}/>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        {nearbyTolls.map((toll, index) => (
-          <View 
-            key={`${toll.stateRoute} | ${toll.startLocation} | ${toll.direction}`} style={styles.tollWrapper}
-          >
-            <TollCard toll={toll} />
+      {
+        nearbyTolls === null ? (
+          <View style={styles.loadingContent}>
+            <Loader text="Finding tolls" />
           </View>
-        ))}
-      </ScrollView>
+        ) :
+        nearbyTolls.length === 0 ? (
+          null
+        ) : (
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            {nearbyTolls.map((toll) => (
+              <View 
+                key={`${toll.stateRoute} | ${toll.startLocation} | ${toll.direction}`}
+                style={styles.tollWrapper}
+              >
+                <TollCard toll={toll} />
+              </View>
+            ))}
+          </ScrollView>
+        )
+      }
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // full height
+    flex: 1
+  },
+  loadingContent: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingBottom: 128
   },
   scrollContent: {
     paddingTop: 16,

@@ -8,8 +8,12 @@ import { useEffect, useState } from "react";
 export default function useNearbyTolls(
     location: UserLocation | null, 
     direction: Direction | null
-): Toll[] {
-    const [nearbyTolls, setNearbyTolls] = useState<Toll[]>([]);
+): Toll[] | null {
+    const [nearbyTolls, setNearbyTolls] = useState<Toll[] | null>(null);
+
+    useEffect(() => {
+        setNearbyTolls(null);
+    }, [direction]);
 
     useEffect(() => {
         if (!location) return;
