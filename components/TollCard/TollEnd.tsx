@@ -1,4 +1,5 @@
 import Colors from "@/constants/Colors";
+import Fonts from "@/constants/Fonts";
 import { Theme } from "@/constants/Themes";
 import { useSettings } from "@/contexts/SettingsContext";
 import React from "react";
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderBottomColor: Colors.lightGray,
     borderBottomWidth: 1,
-    backgroundColor: "#fdfdfd",
+    backgroundColor: Colors.white,
   },
   locationWrapper: {
     flexDirection: "row",
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
   location: {
     fontSize: 18,
     lineHeight: 24,
-    fontFamily: "Overpass_600SemiBold",
+    fontFamily: Fonts.Toll.SemiBold,
     color: Colors.black,
   },
   metricsRow: {

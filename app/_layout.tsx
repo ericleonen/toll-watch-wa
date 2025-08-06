@@ -1,12 +1,8 @@
 import Logo from "@/components/Logo";
 import Colors from "@/constants/Colors";
+import Fonts from "@/constants/Fonts";
 import { SettingsProvider } from "@/contexts/SettingsContext";
-import {
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_700Bold,
-  useFonts
-} from "@expo-google-fonts/poppins";
+import useThemeFonts from "@/hooks/useThemeFonts";
 import { Ionicons } from "@expo/vector-icons";
 import { Link, Stack, useRouter } from "expo-router";
 import { Pressable, Text } from "react-native";
@@ -14,13 +10,11 @@ import { Pressable, Text } from "react-native";
 export default function RootLayout() {
   const router = useRouter();
 
-  const [fontsLoaded, error] = useFonts({
-    Poppins_400Regular,
-    Poppins_500Medium,
-    Poppins_700Bold,
-  });
+  const fontsReady = useThemeFonts();
 
-  if (!fontsLoaded || error) return null;
+  if (!fontsReady) {
+    return null;
+  }
 
   return (
     <SettingsProvider>
@@ -47,7 +41,7 @@ export default function RootLayout() {
             headerTitle: () => (
               <Text
                 style={{
-                  fontFamily: "Poppins_700Bold",
+                  fontFamily: Fonts.Default.Bold,
                   fontSize: 20,
                   color: Colors.white,
                   marginLeft: 8

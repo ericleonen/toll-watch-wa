@@ -1,4 +1,5 @@
 import Colors from "@/constants/Colors";
+import Fonts from "@/constants/Fonts";
 import { useSettings } from "@/contexts/SettingsContext";
 import {
   Overpass_500Medium,
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
   paragraph: {
     fontSize: 16,
     color: Colors.darkGray,
-    fontFamily: "Poppins_400Regular",
+    fontFamily: Fonts.Default.Regular,
     lineHeight: 24,
     backgroundColor: Colors.white,
     padding: 20
@@ -190,14 +191,14 @@ const styles = StyleSheet.create({
   },
   labelText: {
     fontSize: 18,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: Fonts.Default.Medium,
     color: Colors.darkGray,
     marginBottom: 6,
   },
   description: {
     fontSize: 14,
     color: Colors.gray,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: Fonts.Default.Medium,
   },
   valueContainer: {
     alignItems: "flex-end",
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
   valueText: {
     fontSize: 18,
     color: Colors.darkGreen,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: Fonts.Default.Medium,
     textAlign: "right",
   },
   sliderContainer: {
@@ -226,6 +227,6 @@ const styles = StyleSheet.create({
   sliderLabel: {
     fontSize: 12,
     color: Colors.gray,
-    fontFamily: "Poppins_500Medium",
+    fontFamily: Fonts.Default.Medium,
   },
 });

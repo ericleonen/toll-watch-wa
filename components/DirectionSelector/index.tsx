@@ -1,5 +1,6 @@
 import Colors from "@/constants/Colors";
 import { DIRECTIONS_MAP } from "@/constants/directions";
+import Fonts from "@/constants/Fonts";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import {
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.black,
     marginRight: 6,
-    fontFamily: "Poppins_500Medium"
+    fontFamily: Fonts.Default.Medium
   },
   dropdownIcon: {
     color: Colors.gray,
@@ -129,6 +130,6 @@ const styles = StyleSheet.create({
   optionLabel: {
     fontSize: 16,
     color: Colors.black,
-    fontFamily: "Poppins_500Medium"
+    fontFamily: Fonts.Default.Medium
   },
 });

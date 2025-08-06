@@ -1,15 +1,9 @@
-import { Poppins_700Bold, useFonts } from "@expo-google-fonts/poppins";
+import Fonts from "@/constants/Fonts";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 const Logo: React.FC = () => {
-  const [loaded, error] = useFonts({
-		Poppins_700Bold
-	});
-
-  if (!loaded || error) return null;
-
   return (
     <View style={styles.container}>
       <Ionicons name="car" size={32} color="white" />
@@ -28,7 +22,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "white",
     marginRight: 4,
-    fontFamily: "Poppins_700Bold",
+    fontFamily: Fonts.Default.Bold,
     marginLeft: 8
   }
 });

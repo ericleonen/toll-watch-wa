@@ -1,4 +1,5 @@
 import Colors from "@/constants/Colors";
+import Fonts from "@/constants/Fonts";
 import Themes, { Theme } from "@/constants/Themes";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
@@ -56,11 +57,11 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     color: Colors.gray,
-    fontFamily: "Poppins_500Medium"
+    fontFamily: Fonts.Default.Medium
   },
   text: {
-    fontFamily: "Poppins_500Medium",
-    fontSize: 16
+    fontFamily: Fonts.Default.Medium,
+    fontSize: 14
   }
 });
 

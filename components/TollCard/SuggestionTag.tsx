@@ -1,3 +1,4 @@
+import Fonts from "@/constants/Fonts";
 import Themes, { Theme } from "@/constants/Themes";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet, Text, View } from "react-native";
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 999
   },
   label: {
-    fontFamily: "Poppins_500Medium",
+    fontFamily: Fonts.Default.Medium,
     fontSize: 14,
     marginLeft: 4,
     lineHeight: 24

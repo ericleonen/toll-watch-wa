@@ -1,14 +1,6 @@
 import Colors from "@/constants/Colors";
 import { DIRECTIONS_MAP } from "@/constants/directions";
-import { useSettings } from "@/contexts/SettingsContext";
-import {
-  Overpass_500Medium,
-  Overpass_600SemiBold
-} from "@expo-google-fonts/overpass";
-import {
-  ShareTechMono_400Regular
-} from "@expo-google-fonts/share-tech-mono";
-import { useFonts } from "expo-font";
+import Fonts from "@/constants/Fonts";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import TollEnd from "./TollEnd";
@@ -26,28 +18,6 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
     ETLSpeedGuess,
     distanceBetweenStartAndUserMiles
   } = toll;
-
-  const [loaded, error] = useFonts({
-    ShareTechMono_400Regular,
-    Overpass_500Medium,
-    Overpass_600SemiBold
-  });
-
-  const { maxCost, minTimeSaved, maxTimeCost } = useSettings();
-
-  if (!loaded || error) return null;
-
-  const getSuggestion = (end: TollEnd) => {
-    if (
-      end.costDollars <= maxCost ||
-      (end.timeSavedMin && end.timeSavedMin >= minTimeSaved) ||
-      (typeof end.timeCostDollarsPerMin === "number" && end.timeCostDollarsPerMin < maxTimeCost)
-    ) {
-      return "take";
-    } else {
-      return "skip";
-    }
-  }
 
   return (
     <View style={styles.cardWrapper}>
@@ -92,13 +62,13 @@ const styles = StyleSheet.create({
   route: {
     fontSize: 20,
     color: Colors.black,
-    fontFamily: "Overpass_600SemiBold",
+    fontFamily: Fonts.Toll.SemiBold,
     textAlign: "center"
   },
   startLocation: {
     color: Colors.darkGray,
     fontSize: 16,
-    fontFamily: "Overpass_500Medium",
+    fontFamily: Fonts.Toll.Medium,
     textAlign: "center"
   },
   startDistance: {
