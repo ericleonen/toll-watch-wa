@@ -33,6 +33,13 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
       {
         ends.map((end, index) => <TollEnd key={index} {...end}/>)
       }
+      {
+        ETLSpeedGuess && (
+          <Text style={styles.note}>
+            We can't find info about the ETL lane, so we assume it's travelling at 45 mph.
+          </Text>
+        )
+      }
     </View>
   );
 };
@@ -75,6 +82,11 @@ const styles = StyleSheet.create({
   },
   startDistance: {
     color: Colors.gray,
+  },
+  note: {
+    color: Colors.gray,
+    fontFamily: Fonts.Default.Regular,
+    padding: 16
   }
 });
 
