@@ -41,7 +41,10 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "314ac51a-327c-42d4-9796-a618e3e17e0c"
+      }
     },
     "owner": "ericleonen"
   }
