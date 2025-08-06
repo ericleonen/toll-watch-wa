@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingVertical: 8,
     paddingHorizontal: 12,
+    maxWidth: 400,
   },
   option: {
     flexDirection: "row",
