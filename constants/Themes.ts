@@ -11,16 +11,16 @@ const Themes: { [theme in Theme]: {
     backgroundColor: Color
 } } = {
     [Theme.Success]: {
-        color: Colors.successGreen,
-        backgroundColor: Colors.lightSuccessGreen
+        color: Colors.SuccessGreen,
+        backgroundColor: Colors.LightSuccessGreen
     },
     [Theme.Neutral]: {
-        color: Colors.darkGray,
-        backgroundColor: Colors.lighterGray
+        color: Colors.DarkGray,
+        backgroundColor: Colors.LighterGray
     },
     [Theme.Failure]: {
-        color: Colors.failureRed,
-        backgroundColor: Colors.lightFailureRed
+        color: Colors.FailureRed,
+        backgroundColor: Colors.LightFailureRed
     }
 }
 

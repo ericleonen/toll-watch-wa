@@ -99,21 +99,21 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.darkWhite
+    backgroundColor: Colors.DarkWhite
   },
   content: {
     paddingBottom: 40
   },
   paragraph: {
     fontSize: 16,
-    color: Colors.darkGray,
+    color: Colors.DarkGray,
     fontFamily: Fonts.Default.Regular,
     lineHeight: 24,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.White,
     padding: 20
   },
   saveButton: {
-    backgroundColor: Colors.darkGreen,
+    backgroundColor: Colors.DarkGreen,
     marginTop: 20,
     marginHorizontal: 20,
     paddingVertical: 10,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   },
   saveButtonLabel: {
     textAlign: "center",
-    color: Colors.white,
+    color: Colors.White,
     fontFamily: Fonts.Default.Medium,
     fontSize: 16
   }
