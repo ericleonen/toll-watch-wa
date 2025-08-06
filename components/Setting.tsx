@@ -36,7 +36,7 @@ const Setting: React.FC<SettingProps> = ({
               // @ts-ignore
               name={icon} 
               size={22} 
-              color={Colors.darkGreen}
+              color={Colors.DarkGreen}
             />
         </View>
         <View style={styles.labelContainer}>
@@ -55,9 +55,9 @@ const Setting: React.FC<SettingProps> = ({
             step={step}
             value={value}
             onValueChange={(value: number) => setValue(value)}
-            minimumTrackTintColor={Colors.darkGreen}
-            maximumTrackTintColor={Colors.gray}
-            thumbTintColor={Colors.darkGreen}
+            minimumTrackTintColor={Colors.DarkGreen}
+            maximumTrackTintColor={Colors.Gray}
+            thumbTintColor={Colors.DarkGreen}
         />
         <View style={styles.sliderLabels}>
             <Text style={styles.sliderLabel}>{formatValue(minValue)}</Text>
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.lightGray
+    borderBottomColor: Colors.LightGray
   },
   cardHeader: {
     flexDirection: "row",
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 12,
-    backgroundColor: Colors.lightGreen,
+    backgroundColor: Colors.LightGreen,
     justifyContent: "center",
     alignItems: "center",
     marginRight: 16,
@@ -96,12 +96,12 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 18,
     fontFamily: Fonts.Default.Medium,
-    color: Colors.darkGray,
+    color: Colors.DarkGray,
     marginBottom: 6,
   },
   description: {
     fontSize: 14,
-    color: Colors.gray,
+    color: Colors.Gray,
     fontFamily: Fonts.Default.Medium,
   },
   valueContainer: {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   valueText: {
     fontSize: 18,
-    color: Colors.darkGreen,
+    color: Colors.DarkGreen,
     fontFamily: Fonts.Default.Medium,
     textAlign: "right",
   },
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   sliderLabel: {
     fontSize: 12,
-    color: Colors.gray,
+    color: Colors.Gray,
     fontFamily: Fonts.Default.Medium,
   }
 });

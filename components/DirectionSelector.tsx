@@ -66,7 +66,7 @@ export const DirectionSelector: React.FC<DirectionSelectorProps> = ({ direction,
                       // @ts-ignore
                       name={DIRECTION_ICONS[item]}
                       size={18}
-                      color={Colors.darkGreen}
+                      color={Colors.DarkGreen}
                     />
                   </View>
                   <Text style={styles.optionLabel}>{DIRECTIONS_MAP[item]}</Text>
@@ -85,28 +85,28 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 12,
-    backgroundColor: "white",
+    backgroundColor: Colors.White,
     justifyContent: "center",
     borderBottomWidth: 1,
-    borderBottomColor: Colors.lightGray
+    borderBottomColor: Colors.LightGray
   },
   label: {
     fontSize: 16,
-    color: Colors.black,
+    color: Colors.Black,
     marginRight: 6,
     fontFamily: Fonts.Default.Medium
   },
   dropdownIcon: {
-    color: Colors.gray,
+    color: Colors.Gray,
   },
   modalBackdrop: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: Colors.transparentBlack
+    backgroundColor: Colors.TransparentBlack
   },
   modalContent: {
     marginHorizontal: 32,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.White,
     borderRadius: 12,
     paddingVertical: 8,
     paddingHorizontal: 12,
@@ -120,17 +120,17 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   optionPressed: {
-    backgroundColor: Colors.lighterGray
+    backgroundColor: Colors.LighterGray
   },
   iconBox: {
-    backgroundColor: Colors.lightGreen,
+    backgroundColor: Colors.LightGreen,
     padding: 8,
     borderRadius: 10,
     marginRight: 12,
   },
   optionLabel: {
     fontSize: 16,
-    color: Colors.black,
+    color: Colors.Black,
     fontFamily: Fonts.Default.Medium
   },
 });

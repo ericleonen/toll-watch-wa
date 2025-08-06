@@ -14,7 +14,7 @@ const EmptyResults: React.FC<EmptyResultsProps> = ({ text }) => {
       <Ionicons
         name="search-circle-outline"
         size={48}
-        color={Colors.gray}
+        color={Colors.Gray}
       />
       <Text style={styles.text}>{text}</Text>
     </View>
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: Fonts.Default.Medium,
     fontSize: 16,
-    color: Colors.darkGray,
+    color: Colors.DarkGray,
     textAlign: "center",
     marginTop: 12
   }

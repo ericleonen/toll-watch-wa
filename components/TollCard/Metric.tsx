@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
     padding: 10,
     flex: 1,
     alignItems: "center",
-    backgroundColor: Colors.lighterGray
+    backgroundColor: Colors.LighterGray
   },
   label: {
     fontSize: 12,
-    color: Colors.gray,
+    color: Colors.Gray,
     fontFamily: Fonts.Default.Medium
   },
   text: {

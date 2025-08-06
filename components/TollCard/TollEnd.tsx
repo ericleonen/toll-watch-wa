@@ -88,9 +88,9 @@ const TollEnd: React.FC<TollEnd> = ({
 const styles = StyleSheet.create({
   wrapper: {
     padding: 16,
-    borderBottomColor: Colors.lightGray,
+    borderBottomColor: Colors.LightGray,
     borderBottomWidth: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.White,
   },
   locationWrapper: {
     flexDirection: "row",
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 24,
     fontFamily: Fonts.Toll.SemiBold,
-    color: Colors.black,
+    color: Colors.Black,
   },
   metricsRow: {
     flexDirection: "row",
