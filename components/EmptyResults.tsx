@@ -1,16 +1,18 @@
 import Colors from "@/constants/Colors";
 import Fonts from "@/constants/Fonts";
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-type LoaderProps = {
+type EmptyResultsProps = {
   text: string
 }
 
-const Loader: React.FC<LoaderProps> = ({ text }) => {
+const EmptyResults: React.FC<EmptyResultsProps> = ({ text }) => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator
+      <Ionicons
+        name="search-circle-outline"
         size={48}
         color={Colors.gray}
       />
@@ -33,4 +35,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Loader;
+export default EmptyResults;

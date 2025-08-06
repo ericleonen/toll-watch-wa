@@ -1,4 +1,5 @@
 import { DirectionSelector } from "@/components/DirectionSelector";
+import EmptyResults from "@/components/EmptyResults";
 import Loader from "@/components/Loader";
 import TollCard from "@/components/TollCard";
 import useNearbyTolls from "@/hooks/useNearbyTolls";
@@ -16,12 +17,14 @@ export default function Index() {
       <DirectionSelector direction={direction} onChange={newDirection => setDirection(newDirection)}/>
       {
         nearbyTolls === null ? (
-          <View style={styles.loadingContent}>
+          <View style={styles.centeredContext}>
             <Loader text="Finding tolls" />
           </View>
         ) :
         nearbyTolls.length === 0 ? (
-          null
+          <View style={styles.centeredContext}>
+            <EmptyResults text="No tolls found" />
+          </View>
         ) : (
           <ScrollView contentContainerStyle={styles.scrollContent}>
             {nearbyTolls.map((toll) => (
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  loadingContent: {
+  centeredContext: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
