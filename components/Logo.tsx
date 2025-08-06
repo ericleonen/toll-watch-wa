@@ -1,13 +1,12 @@
 import Colors from "@/constants/Colors";
 import Fonts from "@/constants/Fonts";
-import Ionicons from '@expo/vector-icons/Ionicons';
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 const Logo: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Ionicons name="car" size={32} color={Colors.White} />
+      <Image source={require("@/assets/images/icon.png")} style={styles.icon} />
       <Text style={styles.title}>WSDOT TollWatch</Text>
     </View>
   );
@@ -19,13 +18,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 8,
   },
+  icon: {
+    width: 32,
+    height: 32,
+    borderRadius: 6,
+    borderColor: Colors.White,
+    borderWidth: 2
+  },
   title: {
     fontSize: 20,
     color: Colors.White,
     marginRight: 4,
     fontFamily: Fonts.Default.Bold,
-    marginLeft: 8
-  }
+    marginLeft: 12
+  },
 });
 
 export default Logo;

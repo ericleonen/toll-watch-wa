@@ -44,7 +44,7 @@ export default function RootLayout() {
                   fontFamily: Fonts.Default.Bold,
                   fontSize: 20,
                   color: Colors.White,
-                  marginLeft: 8
+                  marginLeft: 12
                 }}
               >
                 Settings
