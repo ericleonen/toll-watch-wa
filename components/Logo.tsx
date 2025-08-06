@@ -7,7 +7,7 @@ const Logo: React.FC = () => {
   return (
     <View style={styles.container}>
       <Image source={require("@/assets/images/icon.png")} style={styles.icon} />
-      <Text style={styles.title}>WSDOT TollWatch</Text>
+      <Text style={styles.title}>WA TollView</Text>
     </View>
   );
 };

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "toll-watch-wa",
-    "slug": "toll-watch-wa",
+    "name": "wa-tollview",
+    "slug": "wa-tollview",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "tollwatchwa",
+    "scheme": "watollview",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -17,7 +17,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.ericleonen.tollwatchwa"
+      "package": "com.ericleonen.watollview"
     },
     "web": {
       "bundler": "metro",

@@ -1,50 +1,45 @@
-# Welcome to your Expo app 👋
+# WA TollView
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+WA TollView helps Washington drivers decide whether to use the Express Toll Lanes (ETL) or stick to the General Purpose (GP) lanes. Powered by real-time data from the Washington State Department of Transportation (WSDOT) APIs, the app provides:
 
-## Get started
+- Current toll prices
+- Approximate time savings
+- Implied time cost (dollars per minute saved)
 
-1. Install dependencies
+You decide what makes a toll “worth it” — WA TollView simply helps you act on it.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## Features
 
-   ```bash
-   npx expo start
-   ```
+- Live data from WSDOT for toll prices and travel times
+- Customizable settings:
+  - Max toll cost
+  - Minimum time saved
+  - Maximum cost per minute saved
+- Simple, clean UI for quick decision-making
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Data Source
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+All toll and travel time information comes from the official WSDOT Traveler APIs.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+## Use Case
 
-```bash
-npm run reset-project
-```
+WA TollView is ideal for drivers who:
+- Want to optimize their commute based on value
+- Prefer to avoid tolls unless time savings are substantial
+- Like knowing what they’re paying for
+- Is, like me, an economics nerd
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## Built With
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [React Native](https://reactnative.dev/) + [Expo](https://expo.dev/)
+- TypeScript
+- Python [FastAPI](https://fastapi.tiangolo.com/) backend
+- [WSDOT Traveler APIs](https://wsdot.wa.gov/traffic/api/)
