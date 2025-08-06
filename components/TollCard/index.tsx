@@ -20,7 +20,7 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
   } = toll;
 
   return (
-    <View style={styles.cardWrapper}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.route}>
           {stateRoute} {DIRECTIONS_MAP[direction].toUpperCase()}
@@ -38,11 +38,11 @@ const TollCard: React.FC<TollCardProps> = ({ toll }) => {
 };
 
 const styles = StyleSheet.create({
-  cardWrapper: {
+  container: {
     backgroundColor: Colors.white,
     borderRadius: 16,
     overflow: "hidden",
-    margin: 16,
+    margin: 10,
     width: "90%",
     maxWidth: 400,
     alignSelf: "center",
@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
+    borderWidth: 1,
+    borderColor: Colors.lightGray
   },
   header: {
     backgroundColor: Colors.lighterGray,
