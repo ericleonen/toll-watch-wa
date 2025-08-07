@@ -8,6 +8,10 @@ WA TollView helps Washington drivers decide whether to use the Express Toll Lane
 
 You decide what makes a toll “worth it” — WA TollView simply helps you act on it.
 
+**Download a preview of the (Android) app:** 
+ - Directly [here](https://expo.dev/artifacts/eas/pzK8VKqy2DXJHYrccpYRzq.apk)
+ - OR through [Expo](https://expo.dev/accounts/ericleonen/projects/wa-tollview/builds/bef85148-0a37-499f-84e3-4a5cffc99bc6)
+
 ---
 
 ## Features
