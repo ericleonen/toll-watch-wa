@@ -34,10 +34,10 @@ All toll and travel time information comes from the official WSDOT Traveler APIs
 ## Use Case
 
 WA TollView is ideal for drivers who:
-- Want to optimize their commute based on value
-- Prefer to avoid tolls unless time savings are substantial
-- Like knowing what they’re paying for
-- Is, like me, an economics nerd
+- want to optimize their commute based on value
+- prefer to avoid tolls unless time savings are substantial
+- like knowing what they’re paying for
+- are, like me, an economics nerd
 
 ---
 
