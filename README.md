@@ -12,6 +12,8 @@ You decide what makes a toll “worth it” — WA TollView simply helps you act
  - Directly [here](https://expo.dev/artifacts/eas/pzK8VKqy2DXJHYrccpYRzq.apk)
  - OR through [Expo](https://expo.dev/accounts/ericleonen/projects/wa-tollview/builds/bef85148-0a37-499f-84e3-4a5cffc99bc6)
 
+<img src="./assets/images/app-screenshot.png" alt="Screenshot of app" width="400">
+
 ---
 
 ## Features
